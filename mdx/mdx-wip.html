@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<!--
+  MDX MSc "Work in progress" embed — nirshath.com
+  Recommended iframe heights (measured @1440/@1100, 390 viewports):
+  DESKTOP: ?v=home 680px | ?v=about 970px
+  MOBILE : ?v=home 1080px | ?v=about 1650px
+  (page also posts embed-height messages for auto-resize hosts)
+  Variants: ?v=home (compact, ~520px content) | ?v=about (fuller, ~700px content)
+  Self-contained: inline CSS/JS; one image asset: assets/mdx-logo-dark.png (relative).
+  Posts {type:'embed-height', h} to parent on load/resize.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MSc in progress — Middlesex University Dubai</title>
+<style>
+  :root{
+    --ink:#000;
+    --paper:#FCFCFC;
+    --mdx-red:#E30A0A;
+    --tape-yellow:#FFD60A;
+    --tape-black:#111;
+    --gray:#8F8F8F;
+    --line:rgba(0,0,0,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--paper);color:var(--ink);
+    font-family:helvetica-w01-roman,helvetica-w02-roman,Helvetica,Arial,sans-serif;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+  /* ---------- caution tape layers ---------- */
+  .tape{position:absolute;left:-60%;width:220%;z-index:1;pointer-events:none;
+    height:44px;
+    background:repeating-linear-gradient(-45deg,
+      var(--tape-yellow) 0 26px, var(--tape-black) 26px 52px);
+    border-top:2px solid #000;border-bottom:2px solid #000;
+    background-size:73.5px 73.5px;
+    animation:slide 3.2s linear infinite;
+    will-change:transform,background-position;
+    opacity:.95}
+  .tape.t1{top:26px;transform:rotate(-2.2deg);animation-name:slide}
+  .tape.t2{top:auto;bottom:34px;transform:rotate(1.6deg);animation-name:slide-rev;animation-duration:4.4s}
+  .tape.t3{display:none}
+  @keyframes slide{from{background-position:0 0}to{background-position:73.5px 0}}
+  @keyframes slide-rev{from{background-position:0 0}to{background-position:-73.5px 0}}
+
+  .site{position:relative;padding:48px 0 56px;overflow:hidden}
+  .v-about .tape.t3{display:block;top:auto;bottom:120px;transform:rotate(-1deg);animation-name:slide;animation-duration:6s;opacity:.6;height:28px}
+
+  /* ---------- header row ---------- */
+  .kicker{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+  .kicker img{height:38px;width:auto;display:block}
+  .eyebrow{font-size:12px;font-weight:bold;letter-spacing:.22em;text-transform:uppercase;color:var(--mdx-red)}
+
+  h1{font-family:helvetica-w01-bold,Helvetica,Arial,sans-serif;font-weight:bold;
+    font-size:clamp(38px,6.2vw,80px);line-height:.92;letter-spacing:-.045em;text-transform:uppercase}
+  h1 .red{color:var(--mdx-red)}
+  .sub{margin-top:14px;font-size:clamp(15px,1.5vw,18px);line-height:1.5;color:#222;max-width:620px}
+  .sub b{font-weight:bold}
+
+  .grid{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:start;margin-top:28px}
+
+  /* ---------- construction sign ---------- */
+  .signbox{position:relative;width:170px;text-align:center;flex:none}
+  .sign{transform-origin:50% 8%;will-change:transform;display:block;margin:0 auto;width:132px;height:auto;
+    filter:drop-shadow(0 10px 18px rgba(0,0,0,.18))}
+  .signpost{width:8px;height:48px;margin:-4px auto 0;background:linear-gradient(#3a3a3a,#111);border-radius:2px}
+  .sign-cap{margin-top:7px;font-size:10px;font-weight:bold;letter-spacing:.18em;text-transform:uppercase;color:var(--gray)}
+
+  /* ---------- progress ---------- */
+  .prog{margin-top:32px}
+  .prog-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:10px}
+  .prog-label{font-size:12px;font-weight:bold;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+  .prog-pct{font-family:helvetica-w01-bold,Helvetica,Arial,sans-serif;font-weight:bold;
+    font-size:clamp(28px,3.6vw,44px);letter-spacing:-.03em;line-height:1;color:var(--mdx-red)}
+  .bar{position:relative;height:26px;background:#fff;border:2px solid #000;border-radius:13px;overflow:hidden}
+  .bar-fill{position:absolute;inset:0;width:0;border-right:2px solid #000;border-radius:11px;
+    background:repeating-linear-gradient(-45deg,var(--tape-yellow) 0 12px,var(--tape-black) 12px 24px);
+    background-size:33.9px 33.9px;animation:slide 1.4s linear infinite;
+    transition:width 1.4s cubic-bezier(.22,1,.36,1)}
+  .prog-dates{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--gray);font-weight:bold;letter-spacing:.06em;text-transform:uppercase}
+  .days{margin-top:18px;font-size:15px;color:#222}
+  .days b{font-family:helvetica-w01-bold,Helvetica,Arial,sans-serif;color:var(--ink);font-size:18px}
+
+  /* ---------- chips ---------- */
+  .chips-h{margin-top:28px;font-size:12px;font-weight:bold;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .chip{border:2px solid #000;border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:bold;
+    background:#fff;transition:transform .25s cubic-bezier(.22,1,.36,1),background .25s,color .25s;cursor:default;will-change:transform}
+  .chip:hover{background:var(--mdx-red);border-color:var(--mdx-red);color:#fff;transform:translateY(-3px) rotate(-1.2deg)}
+  .chip::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:8px;
+    background:var(--tape-yellow);border:1.5px solid #000;vertical-align:1px}
+
+  /* ---------- about-only extras ---------- */
+  .v-home .only-about{display:none}
+  .split{display:none}
+  .v-about .split{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;margin-top:44px;
+    border-top:2px solid #000;padding-top:30px}
+  .split h2{font-family:helvetica-w01-bold,Helvetica,Arial,sans-serif;font-weight:bold;text-transform:uppercase;
+    letter-spacing:-.02em;font-size:22px;margin-bottom:12px}
+  .split p{font-size:15px;line-height:1.6;color:#222}
+  .split p + p{margin-top:10px}
+  .minis{margin-top:0}
+  .mini{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .mini span:first-child{font-weight:bold}
+  .mini span:last-child{color:var(--gray);text-align:right}
+  .mini .st{color:var(--mdx-red);font-weight:bold;text-transform:uppercase;font-size:11px;letter-spacing:.12em;align-self:center}
+
+  /* ---------- reveal ---------- */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,1,.36,1)}
+  .rv.in{opacity:1;transform:none}
+
+  @media (max-width:820px){
+    .grid{grid-template-columns:1fr;gap:26px}
+    .signbox{width:100%}
+    .sign{width:120px}
+    .v-about .split{grid-template-columns:1fr}
+    .wrap{padding:0 20px}
+    .site{padding:52px 0 60px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .tape,.bar-fill{animation:none}
+    .sign{transition:none !important}
+    .rv{transition:none;opacity:1;transform:none}
+  }
+</style>
+</head>
+<body class="v-home">
+
+<section class="site" aria-labelledby="mdx-wip-title">
+  <div class="tape t1" aria-hidden="true"></div>
+  <div class="tape t3" aria-hidden="true"></div>
+  <div class="tape t2" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="kicker rv">
+      <img src="assets/mdx-logo-dark.png" alt="Middlesex University Dubai" width="96" height="38">
+      <span class="eyebrow">Postgraduate · Dubai Knowledge Park</span>
+    </div>
+
+    <div class="grid">
+      <div>
+        <h1 id="mdx-wip-title" class="rv">MSc in<br><span class="red">progress.</span></h1>
+        <p class="sub rv">Nirshath is studying <b>MSc Marketing Communications &amp; Brand Management</b> at Middlesex University Dubai. The degree ships <b>April 2027</b>. This section is a construction site until then.</p>
+      </div>
+
+      <div class="signbox rv" id="signbox" aria-hidden="true">
+        <svg class="sign" id="sign" viewBox="0 0 200 200">
+          <rect x="92" y="4" width="16" height="18" fill="#111"/>
+          <g id="signswing">
+            <rect x="33" y="33" width="134" height="134" rx="14" transform="rotate(45 100 100)" fill="#FFD60A" stroke="#111" stroke-width="8"/>
+            <text x="100" y="92" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="18" fill="#111" letter-spacing="-0.3">DEGREE</text>
+            <text x="100" y="112" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="bold" font-size="14.5" fill="#111" letter-spacing="-0.3">IN PROGRESS</text>
+            <rect x="70" y="122" width="60" height="6" fill="#111"/>
+          </g>
+        </svg>
+        <div class="signpost"></div>
+        <div class="sign-cap">est. 23 Sep 2026</div>
+      </div>
+    </div>
+
+    <div class="prog rv">
+      <div class="prog-head">
+        <span class="prog-label">Programme progress</span>
+        <span class="prog-pct" id="pct">0%</span>
+      </div>
+      <div class="bar" role="progressbar" id="bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="MSc programme progress">
+        <div class="bar-fill" id="fill"></div>
+      </div>
+      <div class="prog-dates"><span>23 Sep 2026</span><span>Apr 2027</span></div>
+      <p class="days"><b id="daysin">0</b> days in. <b id="daysleft">0</b> days to go. Progress is live, computed from today's date.</p>
+    </div>
+
+    <div class="rv">
+      <div class="chips-h">Focus areas</div>
+      <div class="chips" id="chips">
+        <span class="chip">Marketing Communications</span>
+        <span class="chip">Brand Management</span>
+        <span class="chip">Consumer Behaviour</span>
+        <span class="chip">Digital Marketing Strategy</span>
+        <span class="chip">Research Methods</span>
+      </div>
+    </div>
+
+    <div class="split only-about rv">
+      <div>
+        <h2>Why a designer is doing a marketing MSc</h2>
+        <p>Brand work doesn't stop at the artwork. This programme goes behind the visuals: the strategy, consumer psychology, and research that decide what a brand is allowed to say, and how.</p>
+        <p>One year, level 7, ending in a 60-credit capstone research project. Classes run evenings after the day job at MultiBank Group. It's tiring. That was the plan.</p>
+      </div>
+      <div class="minis">
+        <div class="mini"><span>Programme</span><span>MSc Marketing Communications &amp; Brand Management</span></div>
+        <div class="mini"><span>Institution</span><span>Middlesex University Dubai</span></div>
+        <div class="mini"><span>Status</span><span class="st">In progress</span></div>
+        <div class="mini"><span>Started</span><span>23 September 2026</span></div>
+        <div class="mini"><span>Expected completion</span><span>April 2027</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var V = new URLSearchParams(location.search).get('v');
+  document.body.className = (V === 'about') ? 'v-about' : 'v-home';
+
+  /* ---- live progress: 23 Sep 2026 -> 30 Apr 2027 ---- */
+  var start = new Date(2026, 8, 23), end = new Date(2027, 3, 30), now = new Date();
+  var total = (end - start) / 864e5, elapsed = Math.max(0, Math.min(total, (now - start) / 864e5));
+  var pct = Math.round(elapsed / total * 100);
+  document.getElementById('pct').textContent = pct + '%';
+  document.getElementById('bar').setAttribute('aria-valuenow', pct);
+  document.getElementById('daysin').textContent = Math.floor(elapsed);
+  document.getElementById('daysleft').textContent = Math.max(0, Math.ceil(total - elapsed));
+
+  /* ---- reveal on scroll (inside iframe viewport) ---- */
+  function revealAll(){
+    document.querySelectorAll('.rv:not(.in)').forEach(function(el){ el.classList.add('in'); });
+    var f = document.getElementById('fill');
+    if (f) f.style.width = pct + '%';
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        if(e.target.querySelector && e.target.querySelector('#fill')){
+          requestAnimationFrame(function(){ document.getElementById('fill').style.width = pct + '%'; });
+        }
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el,i){
+    el.style.transitionDelay = (i*70)+'ms';
+    io.observe(el);
+  });
+  /* safety net: if IO never fires (hidden iframe, prerender), show everything */
+  setTimeout(revealAll, 1500);
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible') setTimeout(revealAll, 300);
+  });
+
+  /* ---- sign swing + tape parallax: mouse + scroll, damped, self-returning ---- */
+  var sign = document.getElementById('signswing');
+  if (sign && !reduced){
+    var mx = 0, my = 0, sx = 0, sy = 0, scrollTilt = 0, cur = 0, vel = 0;
+    addEventListener('mousemove', function(e){
+      mx = (e.clientX / innerWidth - .5);
+      sy = (e.clientY / innerHeight - .5);
+    }, {passive:true});
+    var lastY = scrollY;
+    addEventListener('scroll', function(){
+      scrollTilt = Math.max(-1, Math.min(1, (scrollY - lastY) * .06));
+      lastY = scrollY;
+      tapes.forEach(function(t, i){
+        t.style.marginTop = (scrollY * (i ? -.05 : .07) % 60).toFixed(1) + 'px';
+      });
+    }, {passive:true});
+    var tapes = document.querySelectorAll('.tape');
+    (function tick(){
+      sx += (mx - sx) * .06; sy += (sy - sy) * .06;
+      var target = sx * 14 + scrollTilt * 10;
+      vel += (target - cur) * .012; vel *= .93; cur += vel;   /* spring, settles to 0 */
+      sign.setAttribute('transform', 'rotate(' + cur.toFixed(2) + ' 100 30)');
+      scrollTilt *= .9;
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  /* ---- report height to parent (Wix iframe) ---- */
+  function report(){
+    var sec = document.querySelector('.site');
+    var h = Math.max(sec.getBoundingClientRect().height,
+                     document.documentElement.scrollHeight,
+                     document.body.scrollHeight);
+    parent.postMessage({type:'embed-height', h: Math.ceil(h)}, '*');
+  }
+  addEventListener('load', report);
+  addEventListener('resize', report);
+  new ResizeObserver(report).observe(document.body);
+  setTimeout(report, 1200);
+})();
+</script>
+</body>
+</html>
