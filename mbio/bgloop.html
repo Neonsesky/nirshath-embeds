@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; padding: 0; background: transparent; overflow: hidden; height: 100%; }
+  video { position: fixed; inset: 0; width: 100vw; height: 100vh; object-fit: cover; }
+</style>
+</head>
+<body>
+<video id="v" autoplay muted loop playsinline preload="auto"></video>
+<script>
+  var q = new URLSearchParams(location.search);
+  var src = q.get('src') || 'bg1.mp4';
+  var v = document.getElementById('v');
+  v.src = src;
+  v.play().catch(function(){ document.body.style.background = 'radial-gradient(120% 90% at 30% 20%, #16264a 0%, #0c111f 60%)'; });
+</script>
+</body>
+</html>
