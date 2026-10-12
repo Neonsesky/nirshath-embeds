@@ -1,0 +1,92 @@
+<!doctype html>
+<!-- bybit.html — small "How I made my work better at Bybit" section, Bybit themed. Iframe height: desktop ~720px, mobile ~1080px. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0C10;--card:#14161B;--gold:#F7A600;--ink:#FFFFFF;--dim:rgba(255,255,255,.6);--line:rgba(255,255,255,.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg)}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+.glow{position:absolute;width:720px;height:720px;right:-220px;top:-260px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(247,166,0,.16) 0%,rgba(247,166,0,.05) 45%,rgba(247,166,0,0) 70%);animation:g 18s ease-in-out infinite alternate}
+@keyframes g{to{transform:translate(-120px,90px)}}
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:120px clamp(20px,4vw,48px);
+  display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:center}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.brand img{height:44px;width:auto;margin:-10px -6px}
+.pill{font-size:12px;font-weight:500;letter-spacing:.06em;color:var(--dim);border:1px solid var(--line);border-radius:99px;padding:6px 14px}
+h2{font-weight:600;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.025em;line-height:1.1;margin-bottom:18px}
+h2 em{font-style:normal;color:var(--gold)}
+p.lede{color:var(--dim);font-size:16px;line-height:1.65;max-width:440px;margin-bottom:22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.chip{font-size:12px;font-weight:500;color:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:99px;padding:6px 12px;background:rgba(255,255,255,.03)}
+.cta{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:#0B0C10;background:var(--gold);
+  border-radius:99px;padding:15px 28px;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(247,166,0,.3)}
+.cta .arr{transition:transform .2s}.cta:hover .arr{transform:translateX(4px)}
+
+.visual{position:relative;perspective:1200px}
+.stack{position:relative;aspect-ratio:16/11;transform-style:preserve-3d;transition:transform .25s ease-out}
+.shot{position:absolute;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 60px rgba(0,0,0,.5);background:var(--card)}
+.shot img{display:block;width:100%;height:100%;object-fit:cover}
+.s1{left:0;top:0;width:78%;aspect-ratio:16/9;transform:translateZ(0)}
+.s2{right:0;bottom:0;width:58%;aspect-ratio:1600/748;transform:translateZ(40px)}
+.stat{position:absolute;left:4%;bottom:2%;transform:translateZ(70px);background:rgba(20,22,27,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(247,166,0,.35);border-radius:18px;padding:16px 20px}
+.stat b{display:block;font-size:40px;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-.02em}
+.stat span{display:block;font-size:12px;color:var(--dim);margin-top:6px}
+.rv{opacity:0;translate:0 24px;transition:opacity .7s,translate .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;translate:0}
+
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;gap:44px;padding:88px 18px}
+  .cta{width:100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){.glow{animation:none}.rv{opacity:1;translate:none;transition:none}.stack{transition:none}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+  <div class="rv">
+    <div class="brand"><img src="assets/bybit-logo.svg" alt="Bybit"><span class="pill">Aug–Dec 2025</span></div>
+    <h2>How I made my work <em>2.5x</em> faster at Bybit.</h2>
+    <p class="lede">At Bybit I put AI into the creative pipeline. More output for 20M+ users, same quality bar.</p>
+    <div class="chips"><span class="chip">Sora</span><span class="chip">Runway</span><span class="chip">Midjourney</span><span class="chip">ChatGPT</span></div>
+    <a class="cta" href="https://www.nirshath.com/bybit" target="_top">See my work at Bybit <span class="arr">&rarr;</span></a>
+  </div>
+  <div class="visual rv">
+    <div class="stack" id="stack">
+      <div class="shot s1"><img src="assets/kv-tradfi-24-5.webp" alt="Bybit TradFi key visual I designed" loading="lazy"></div>
+      <div class="shot s2"><img src="assets/web-rewards-hub.webp" alt="Bybit Rewards Hub web design" loading="lazy"></div>
+      <div class="stat"><b>1,000+</b><span>creatives I designed</span></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rv');
+  var io = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.2});
+  els.forEach(function(e,i){e.style.transitionDelay=i*120+'ms'; if(reduce) e.classList.add('in'); else io.observe(e)});
+  setTimeout(function(){els.forEach(function(e){e.classList.add('in')})},2000);
+  var st = document.getElementById('stack');
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    addEventListener('mousemove', function(ev){
+      var r = st.getBoundingClientRect(), x = (ev.clientX - r.left)/r.width - .5, y = (ev.clientY - r.top)/r.height - .5;
+      st.style.transform = 'rotateY('+(x*14).toFixed(2)+'deg) rotateX('+(-y*10).toFixed(2)+'deg)';
+    });
+    document.addEventListener('mouseleave', function(){ st.style.transform = ''; });
+  }
+  function postH(){ parent.postMessage({type:'embed-height', h: document.documentElement.scrollHeight}, '*'); }
+  addEventListener('load', postH); addEventListener('resize', postH); postH();
+})();
+</script>
+</body>
+</html>
