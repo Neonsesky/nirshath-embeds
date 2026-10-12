@@ -1,0 +1,8 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;background:#111}
+.sp{height:1300px;color:#888;display:flex;align-items:center;justify-content:center}
+iframe{width:100%;border:0;display:block;height:2400px}</style></head><body>
+<div class="sp">BEFORE spacer (simulates Wix content above)</div>
+<iframe id="f" src="https://neonsesky.github.io/nirshath-embeds/mbio/hero.html"></iframe>
+<div class="sp">AFTER spacer</div>
+<script>window.addEventListener('message',e=>{if(e.data&&e.data.type==='embed-height')document.getElementById('f').style.height=e.data.h+'px';});</script>
+</body></html>

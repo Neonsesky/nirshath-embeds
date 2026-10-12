@@ -7,6 +7,7 @@
 -->
 <html lang="en">
 <head>
+<script>if(/[?&]intro/.test(location.search))document.documentElement.classList.add('intro')</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>mb.io — The crypto wing of MultiBank Group</title>
@@ -185,6 +186,11 @@ section{position:relative;display:flex;flex-direction:column;align-items:center;
   .sweep,.gridwrap{display:none}
   #cursorGlow{display:none}
 }
+
+/* intro mode: logo + mb.io only (native Wix sections carry the numbers below) */
+html.intro .s3{display:none}
+html.intro .s2{position:relative}
+html.intro body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:160px;z-index:1;pointer-events:none;background:linear-gradient(rgba(12,17,31,0),#0C111F)}
 </style>
 </head>
 <body>
