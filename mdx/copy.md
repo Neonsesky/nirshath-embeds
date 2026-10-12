@@ -12,7 +12,7 @@ The iframe's own text is not indexed as page content, so use these strings as re
 *(render "progress." in MDX red #E30A0A)*
 
 **Paragraph:**
-Nirshath is studying **MSc Marketing Communications & Brand Management** at Middlesex University Dubai. The degree ships **April 2027**. This section is a construction site until then.
+I'm studying **MSc Marketing Communications & Brand Management** at Middlesex University Dubai. The degree ships **April 2027**. This section is a construction site until then.
 
 **Support line:**
 Day 19 of the programme today. Progress bar counts up live from the 23 September 2026 start date.
