@@ -75,9 +75,9 @@ h2 em{font-style:normal;color:var(--amber)}
   <p class="lede">AI is in my production pipeline, not my moodboard. It handles first drafts, iterations, and reporting so design time goes to decisions that need a designer.</p>
 
   <div class="stats">
-    <div class="stat"><b data-count="2.5" data-suffix="x">0x</b><span>Creative output at Bybit after putting AI into the production pipeline</span></div>
-    <div class="stat"><b data-count="2901" data-suffix="">0</b><span>Creatives logged across 432 projects at mb.io &mdash; tracked by a tool I built with AI</span></div>
-    <div class="stat"><b data-count="1" data-prefix="" data-suffix=" click">0</b><span>What it takes the CMO to get a weekly creative report, thanks to a tracker Claude Code built</span></div>
+    <div class="stat"><b data-count="2.5" data-suffix="x">2.5x</b><span>Creative output at Bybit after putting AI into the production pipeline</span></div>
+    <div class="stat"><b data-count="2901" data-suffix="">2,901</b><span>Creatives logged across 432 projects at mb.io &mdash; tracked by a tool I built with AI</span></div>
+    <div class="stat"><b data-count="1" data-prefix="" data-suffix=" click">1 click</b><span>What it takes the CMO to get a weekly creative report, thanks to a tracker Claude Code built</span></div>
   </div>
 
   <div class="steps" id="steps">
@@ -147,6 +147,7 @@ h2 em{font-style:normal;color:var(--amber)}
     el.style.transitionDelay = (i%4)*80 + 'ms';
     if (reduce){ el.classList.add('in'); } else io.observe(el);
   });
+  setTimeout(function(){document.querySelectorAll('.stat,.step').forEach(function(el){el.classList.add('in')})},1800);
   // scroll-driven spine progress
   var steps = document.getElementById('steps');
   if (!reduce){

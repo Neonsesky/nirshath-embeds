@@ -231,6 +231,7 @@ h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,3
   }, {threshold:.18});
   document.querySelectorAll('.card').forEach(function(c){ io.observe(c); });
   if (reduce) document.querySelectorAll('.card').forEach(function(c){c.classList.add('in')});
+  setTimeout(function(){document.querySelectorAll('.card').forEach(function(c){c.classList.add('in')})},2500);
 
   // lightbox
   var lb = document.getElementById('lb'), body = document.getElementById('lb-body');
