@@ -11,15 +11,16 @@
 <style>
 :root{--bg:#0B0C10;--card:#14161B;--gold:#F7A600;--ink:#FFFFFF;--dim:rgba(255,255,255,.6);--line:rgba(255,255,255,.1)}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg)}
+html,body{background:var(--bg);overflow-x:hidden}
 body{font-family:Inter,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+.bgclip{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .glow{position:absolute;width:720px;height:720px;right:-220px;top:-260px;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,rgba(247,166,0,.16) 0%,rgba(247,166,0,.05) 45%,rgba(247,166,0,0) 70%);animation:g 18s ease-in-out infinite alternate}
 @keyframes g{to{transform:translate(-120px,90px)}}
 .wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:120px clamp(20px,4vw,48px);
   display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:center}
 .brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.brand img{height:44px;width:auto;margin:-10px -6px}
+.brand img{height:84px;width:auto;margin:-30px -10px -30px -12px}
 .pill{font-size:12px;font-weight:500;letter-spacing:.06em;color:var(--dim);border:1px solid var(--line);border-radius:99px;padding:6px 14px}
 h2{font-weight:600;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.025em;line-height:1.1;margin-bottom:18px}
 h2 em{font-style:normal;color:var(--gold)}
@@ -52,7 +53,7 @@ p.lede{color:var(--dim);font-size:16px;line-height:1.65;max-width:440px;margin-b
 </style>
 </head>
 <body>
-<div class="glow"></div>
+<div class="bgclip"><div class="glow"></div></div>
 <div class="wrap">
   <div class="rv">
     <div class="brand"><img src="assets/bybit-logo.svg" alt="Bybit"><span class="pill">Aug–Dec 2025</span></div>
@@ -63,8 +64,8 @@ p.lede{color:var(--dim);font-size:16px;line-height:1.65;max-width:440px;margin-b
   </div>
   <div class="visual rv">
     <div class="stack" id="stack">
-      <div class="shot s1"><img src="assets/kv-tradfi-24-5.webp" alt="Bybit TradFi key visual I designed" loading="lazy"></div>
-      <div class="shot s2"><img src="assets/web-rewards-hub.webp" alt="Bybit Rewards Hub web design" loading="lazy"></div>
+      <div class="shot s1"><img src="assets/kv-tradfi-24-5.webp" alt="Bybit TradFi key visual I designed"></div>
+      <div class="shot s2"><img src="assets/web-rewards-hub.webp" alt="Bybit Rewards Hub web design"></div>
       <div class="stat"><b>1,000+</b><span>creatives I designed</span></div>
     </div>
   </div>
