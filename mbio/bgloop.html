@@ -3,18 +3,22 @@
 <head>
 <meta charset="utf-8">
 <style>
-  html, body { margin: 0; padding: 0; background: transparent; overflow: hidden; height: 100%; }
+  html, body { margin: 0; padding: 0; background: #0c111f; overflow: hidden; height: 100%; }
   video { position: fixed; inset: 0; width: 100vw; height: 100vh; object-fit: cover; }
+  #ov { position: fixed; inset: 0; background: #0c111f; opacity: var(--o, 0.45); pointer-events: none; }
 </style>
 </head>
 <body>
 <video id="v" autoplay muted loop playsinline preload="auto"></video>
+<div id="ov"></div>
 <script>
   var q = new URLSearchParams(location.search);
   var src = q.get('src') || 'bg1.mp4';
+  var ov = parseFloat(q.get('ov') || '0.45');
+  document.getElementById('ov').style.setProperty('--o', ov);
   var v = document.getElementById('v');
   v.src = src;
-  v.play().catch(function(){ document.body.style.background = 'radial-gradient(120% 90% at 30% 20%, #16264a 0%, #0c111f 60%)'; });
+  v.play().catch(function(){});
 </script>
 </body>
 </html>
