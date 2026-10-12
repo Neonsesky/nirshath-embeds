@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!--
+  mb.io page band: "The tracker behind the 2,901"
+  RECOMMENDED IFRAME HEIGHT: desktop ~500px (strip 980–1440px wide), mobile ~520px (320–390px).
+  Posts {type:'embed-height', h} to parent on load/resize. Self-contained; images from ../tracker/assets.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The tracker behind the 2,901</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--amber:#FFA900;--ink:#eef2f8;--mut:#96a0b5;--panel:#0d1424;--line2:rgba(255,255,255,.07);--line:rgba(255,169,0,.16)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#04060c;color:var(--ink);font:400 16px/1.6 'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(720px 380px at 88% 0%, rgba(255,169,0,.12), transparent 62%),
+             radial-gradient(560px 340px at 0% 100%, rgba(37,78,158,.12), transparent 62%)}
+.band{position:relative;max-width:1180px;margin:0 auto;padding:64px 28px;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;min-height:500px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font:600 11.5px/1 'Space Grotesk',sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--amber);border:1px solid var(--line);
+  border-radius:999px;padding:8px 14px;background:rgba(255,169,0,.06)}
+.kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber)}
+h2{font:700 clamp(26px,3.4vw,40px)/1.1 'Space Grotesk',sans-serif;letter-spacing:-.02em;margin:16px 0 12px}
+h2 em{font-style:normal;color:var(--amber)}
+p{color:var(--mut);font-size:15.5px;max-width:520px}
+.stats{display:flex;gap:26px;margin:24px 0 28px;flex-wrap:wrap}
+.n{font:700 clamp(24px,2.6vw,32px)/1 'Space Grotesk',sans-serif;color:var(--amber)}
+.l{font-size:12.5px;color:var(--mut);margin-top:5px}
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font:600 14.5px/1 'Space Grotesk',sans-serif;
+  border-radius:12px;padding:15px 24px;background:var(--amber);color:#1a1200;
+  box-shadow:0 8px 28px rgba(255,169,0,.26);transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(255,169,0,.4)}
+.btn:focus-visible,.shot a:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.shot{position:relative;perspective:1200px}
+.card{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line2);
+  box-shadow:0 26px 70px rgba(0,0,0,.55);transform-style:preserve-3d;will-change:transform;transition:transform .5s ease}
+.card img{display:block;width:100%;height:auto}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(4,6,12,.72));pointer-events:none}
+.cap{position:absolute;z-index:2;bottom:14px;left:16px;font:600 12.5px/1 'Space Grotesk',sans-serif;
+  color:var(--ink);background:rgba(4,6,12,.7);border:1px solid var(--line);border-radius:999px;padding:9px 14px;
+  backdrop-filter:blur(6px)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+@media(max-width:860px){
+  .band{grid-template-columns:1fr;padding:52px 18px;gap:34px;min-height:0}
+  .shot{order:-1}
+}
+@media(prefers-reduced-motion:reduce){
+  .rv{opacity:1!important;transform:none!important;transition:none!important}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .card{transform:none!important}
+}
+</style>
+</head>
+<body>
+<div class="band">
+  <div>
+    <span class="kicker rv">The tool behind the work</span>
+    <h2 class="rv d1">The tracker behind the <em>2,901.</em></h2>
+    <p class="rv d2">Tracking 2,901 creatives across 432 projects by hand was the problem. So I had Claude Code build the solution: a personal creative work log on a Google Sheet, deployed as an installable PWA, with calendar, charts and one-click weekly reports.</p>
+    <div class="stats rv d2">
+      <div><div class="n" data-count="2901">0</div><div class="l">creatives tracked</div></div>
+      <div><div class="n" data-count="432">0</div><div class="l">projects</div></div>
+      <div><div class="n">3 prompts</div><div class="l">to build V1</div></div>
+    </div>
+    <a class="btn rv d3" href="https://www.nirshath.com/creative-work-log" target="_top">See the tracker &amp; live demo →</a>
+  </div>
+  <a class="shot rv d1" href="https://www.nirshath.com/creative-work-log" target="_top" aria-label="Open the Creative Work Log page" style="text-decoration:none">
+    <div class="card" id="tiltCard">
+      <img src="../tracker/assets/v2-overview.webp" alt="Creative Work Log dashboard with calendar, charts and monthly totals in a dark navy theme" width="1440" height="900">
+    </div>
+    <span class="cap">Creative Work Log · V2</span>
+  </a>
+</div>
+<script>
+(function(){
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = Array.prototype.slice.call(document.querySelectorAll('.rv'));
+  if (!reduced){
+    var show = function(el){el.classList.add('in');var i=els.indexOf(el);if(i>-1)els.splice(i,1);};
+    if ('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(es){es.forEach(function(e){
+        if(e.isIntersecting) show(e.target);});},{threshold:.15});
+      els.forEach(function(el){io.observe(el);});
+    }
+    var check = function(){for(var i=els.length-1;i>=0;i--){
+      var r=els[i].getBoundingClientRect();
+      if(r.top<innerHeight*0.92&&r.bottom>0) show(els[i]);}};
+    addEventListener('scroll',check,{passive:true}); addEventListener('resize',check);
+    check(); setTimeout(check,300);
+  } else els.forEach(function(el){el.classList.add('in');});
+
+  function countUp(el){
+    var t=+el.dataset.count,t0=null,done=false;
+    if(reduced){el.textContent=t.toLocaleString('en-US');return;}
+    function tick(ts){if(done)return;if(!t0)t0=ts;var p=Math.min((ts-t0)/1300,1),e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(t*e).toLocaleString('en-US');if(p>=1)done=true;else requestAnimationFrame(tick);}
+    requestAnimationFrame(tick);
+    setTimeout(function(){if(!done){done=true;el.textContent=t.toLocaleString('en-US');}},1700);
+  }
+  var nums = Array.prototype.slice.call(document.querySelectorAll('[data-count]'));
+  var fire = function(el){ if(el.dataset.done) return; el.dataset.done=1; countUp(el); };
+  if('IntersectionObserver' in window){
+    var io2=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){fire(e.target);io2.unobserve(e.target);}});},{threshold:.5});
+    nums.forEach(function(n){io2.observe(n);});
+  }
+  var checkN=function(){for(var i=nums.length-1;i>=0;i--){
+    var r=nums[i].getBoundingClientRect();
+    if(r.top<innerHeight&&r.bottom>0){fire(nums[i]);nums.splice(i,1);}}};
+  addEventListener('scroll',checkN,{passive:true});
+  checkN(); setTimeout(checkN,600); setTimeout(checkN,1600);
+
+  var w=document.querySelector('.band'), c=document.getElementById('tiltCard');
+  if(!reduced&&matchMedia('(pointer:fine)').matches){
+    w.addEventListener('mousemove',function(e){
+      var r=w.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      c.style.transition='transform .12s ease';
+      c.style.transform='rotateY('+(x*6)+'deg) rotateX('+(-y*4)+'deg)';
+    });
+    w.addEventListener('mouseleave',function(){c.style.transition='transform .6s ease';c.style.transform='';});
+  }
+
+  function postH(){try{parent.postMessage({type:'embed-height',h:document.documentElement.scrollHeight},'*');}catch(e){}}
+  window.addEventListener('load',function(){postH();setTimeout(postH,600);});
+  window.addEventListener('resize',postH);
+  if('ResizeObserver' in window)new ResizeObserver(postH).observe(document.body);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<!-- workflow.html — "How I use AI" section. Recommended iframe height: desktop 1680px, mobile 2560px (measured 1600/2490). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--amber:#f7a600;--purple:#7b68c8;--line:rgba(255,255,255,.09);--dim:rgba(255,255,255,.55)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000}
+body{font-family:Inter,system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1120px;margin:0 auto;padding:70px clamp(20px,4vw,48px) 84px}
+.kicker{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:12px}
+h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(26px,3.6vw,40px);letter-spacing:-.015em;line-height:1.12;max-width:640px;margin-bottom:16px}
+h2 em{font-style:normal;color:var(--amber)}
+.lede{color:var(--dim);font-size:16px;line-height:1.65;max-width:600px;margin-bottom:56px}
+
+/* stat strip */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:64px}
+.stat{border:1px solid var(--line);border-radius:16px;padding:26px 22px;background:linear-gradient(165deg,#14161f,#0d0e14);
+  opacity:0;translate:0 26px}
+.stat.in{opacity:1;translate:0;transition:opacity .6s,translate .6s cubic-bezier(.2,.7,.2,1)}
+.stat b{font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,4vw,44px);font-weight:700;color:var(--amber);display:block;line-height:1;letter-spacing:-.02em}
+.stat span{display:block;margin-top:10px;font-size:13px;line-height:1.5;color:var(--dim)}
+@media (max-width:640px){.stats{grid-template-columns:1fr;gap:12px}}
+
+/* steps */
+.steps{position:relative;display:grid;gap:18px}
+.steps::before{content:"";position:absolute;left:27px;top:8px;bottom:8px;width:2px;
+  background:linear-gradient(#f7a60055,#7b68c855);transform:scaleY(var(--prog,0));transform-origin:top;transition:transform .2s}
+.step{position:relative;display:grid;grid-template-columns:56px 1fr;gap:22px;align-items:start;
+  opacity:0;translate:0 30px;padding:8px 0}
+.step.in{opacity:1;translate:0;transition:opacity .6s ease,translate .6s cubic-bezier(.2,.7,.2,1)}
+.dot{width:56px;height:56px;border-radius:50%;background:#14161f;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:17px;color:var(--amber);z-index:1;transition:border-color .3s, box-shadow .3s}
+.step:hover .dot{border-color:var(--amber);box-shadow:0 0 24px rgba(247,166,0,.25)}
+.step-body{border:1px solid var(--line);border-radius:16px;padding:24px 26px;background:#101219;
+  transition:transform .25s ease, border-color .25s;flex:1}
+.step:hover .step-body{transform:translateX(6px);border-color:rgba(247,166,0,.35)}
+.step-body h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin-bottom:8px}
+.step-body h3 small{display:block;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);margin-bottom:6px}
+.step-body p{font-size:14px;line-height:1.65;color:var(--dim)}
+.step-body a{color:var(--amber);text-decoration:none;font-weight:600;border-bottom:1px solid rgba(247,166,0,.35)}
+.step-body a:hover{border-color:var(--amber)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-size:11px;font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.75);border:1px solid var(--line);
+  border-radius:99px;padding:5px 11px;background:rgba(255,255,255,.03)}
+.cta{display:inline-block;margin-top:34px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;
+  color:#000;background:var(--amber);border-radius:99px;padding:15px 30px;text-decoration:none;
+  transition:transform .2s, box-shadow .2s}
+.cta:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(247,166,0,.35)}
+@media (max-width:640px){
+  .wrap{padding:48px 18px 60px}
+  .steps::before{left:19px}
+  .step{grid-template-columns:40px 1fr;gap:14px}
+  .dot{width:40px;height:40px;font-size:14px}
+  .step-body{padding:20px 18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .stat,.step{opacity:1;translate:none}
+  .step-body,.cta,.dot{transition:none}
+  .steps::before{--prog:1}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Workflow</p>
+  <h2>How I use AI to <em>design faster</em> and make the team better</h2>
+  <p class="lede">AI is in my production pipeline, not my moodboard. It handles first drafts, iterations, and reporting so design time goes to decisions that need a designer.</p>
+
+  <div class="stats">
+    <div class="stat"><b data-count="2.5" data-suffix="x">0x</b><span>Creative output at Bybit after putting AI into the production pipeline</span></div>
+    <div class="stat"><b data-count="2901" data-suffix="">0</b><span>Creatives logged across 432 projects at mb.io &mdash; tracked by a tool I built with AI</span></div>
+    <div class="stat"><b data-count="1" data-prefix="" data-suffix=" click">0</b><span>What it takes the CMO to get a weekly creative report, thanks to a tracker Claude Code built</span></div>
+  </div>
+
+  <div class="steps" id="steps">
+    <div class="step">
+      <div class="dot">01</div>
+      <div class="step-body">
+        <h3><small>Production</small>AI video &amp; image production for campaigns</h3>
+        <p>I run video and image generation through Higgsfield &mdash; Kling, Seedance, and Google Veo among them &mdash; for mb.io campaigns, including the Khabib AI campaign work: product videos, key frames, and fast variant testing that used to take a full production cycle.</p>
+        <div class="chips"><span class="chip">Higgsfield</span><span class="chip">Kling</span><span class="chip">Seedance</span><span class="chip">Google Veo</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">02</div>
+      <div class="step-body">
+        <h3><small>Tooling</small>I build my own tools with Claude Code</h3>
+        <p>The Creative Work Log tracker behind this page is mine: built with Claude Code, refined over three GitHub pushes. It gives the CMO weekly reports in one click and every creative output on record &mdash; <a href="https://www.nirshath.com/creative-work-log" target="_blank" rel="noopener">see the tracker</a>.</p>
+        <div class="chips"><span class="chip">Claude Code</span><span class="chip">GitHub Pages</span><span class="chip">Google Sheets API</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">03</div>
+      <div class="step-body">
+        <h3><small>Agents</small>Agentic workflows that run while I design</h3>
+        <p>I run agent workflows &mdash; Hermes Agent from Nous Research and Claude's agentic tooling &mdash; for research, drafting, and multi-step jobs: brief to first draft, data to report. Judgment stays with me; volume goes to the agents.</p>
+        <div class="chips"><span class="chip">Hermes Agent</span><span class="chip">Anthropic</span><span class="chip">Claude 101 certified</span></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="dot">04</div>
+      <div class="step-body">
+        <h3><small>Track record</small>2.5x output at Bybit, prompt engineering certified</h3>
+        <p>At Bybit I put Sora, Runway, Midjourney, and ChatGPT into the creative pipeline and shipped 2.5x the output without dropping the quality bar. Formal training backs it: Prompt Engineering certification from the Dubai Future Foundation, and an AI-First Designer School certificate with distinction.</p>
+        <div class="chips"><span class="chip">Sora</span><span class="chip">Runway</span><span class="chip">Midjourney</span><span class="chip">ChatGPT</span><span class="chip">DFF certified</span></div>
+      </div>
+    </div>
+  </div>
+
+  <a class="cta" href="https://www.nirshath.com/creative-work-log" target="_blank" rel="noopener">See the tracker AI helped me build &rarr;</a>
+</div>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // count-ups
+  function countUp(el){
+    var target = parseFloat(el.dataset.count), suffix = el.dataset.suffix || '';
+    var dec = target % 1 !== 0, dur = 1200, t0 = null;
+    function tick(t){
+      if (!t0) t0 = t;
+      var p = Math.min((t - t0)/dur, 1), e = 1 - Math.pow(1 - p, 3);
+      var v = target * e;
+      el.textContent = (dec ? v.toFixed(1) : Math.round(v).toLocaleString('en-US')) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if (!en.isIntersecting) return;
+      en.target.classList.add('in');
+      var n = en.target.querySelector('[data-count]');
+      if (n && !reduce) countUp(n);
+      io.unobserve(en.target);
+    });
+  }, {threshold:.3});
+  document.querySelectorAll('.stat,.step').forEach(function(el,i){
+    el.style.transitionDelay = (i%4)*80 + 'ms';
+    if (reduce){ el.classList.add('in'); } else io.observe(el);
+  });
+  // scroll-driven spine progress
+  var steps = document.getElementById('steps');
+  if (!reduce){
+    addEventListener('scroll', function(){
+      var r = steps.getBoundingClientRect();
+      var p = Math.min(Math.max((innerHeight*0.8 - r.top)/(r.height*0.9), 0), 1);
+      steps.style.setProperty('--prog', p.toFixed(3));
+    }, {passive:true});
+  }
+  function postH(){ parent.postMessage({type:'embed-height', h: document.documentElement.scrollHeight}, '*'); }
+  addEventListener('load', postH); addEventListener('resize', postH); postH();
+})();
+</script>
+</body>
+</html>
