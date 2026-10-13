@@ -56,6 +56,9 @@
       try { base = a.effect.getTiming(); } catch (e) { continue; }
       var dur = base.duration;
       if (!(dur > 0)) continue;
+      // Looping anims (e.g. the resume card's constant linear flip) are deliberate
+      // motion, not entrances: never re-time or re-ease them.
+      if (base.iterations === Infinity || !(base.iterations < 1e9)) continue;
       var newDur = Math.min(dur * CFG.wixDurMul, CFG.wixDurMax);
       var tl = a.timeline;
       // DocumentTimeline => wall clock. ScrollTimeline (scroll-scrub) => pacing untouched.
