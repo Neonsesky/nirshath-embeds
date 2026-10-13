@@ -98,16 +98,40 @@ h2{font-family:'Jacquard 24',Inter,sans-serif;font-weight:400;color:#fff;font-si
   .lede{max-width:none}
   .btn{flex:1 1 100%;justify-content:center}
 }
-@media(max-width:420px){
-  .wm{font-size:56px}
-  .tiles{grid-template-columns:1fr 1fr;gap:8px}
-  .tile .sz{font-size:15px}
+/* ---- phone (<=720px, Wix mobile iframe = 320px wide): a banner, not a page.
+   The old 420px rule turned the tile strip into a 2x2 grid, which is what pushed
+   the band past 1,200px — tiles stay a 4-across strip, copy and rhythm tighten.
+   The 900px tablet rule above (721-900px) and all desktop layout are untouched. ---- */
+@media(max-width:720px){
+  .band{padding:34px 16px 36px;gap:20px;min-height:0}
+  .frame .chrome{padding:8px 12px;gap:6px}
+  .frame .chrome i{width:8px;height:8px}
+  .frame .chrome .url{font-size:10.5px;padding:4px 10px}
+  .eyebrow{font-size:10px;letter-spacing:.12em;gap:7px}
+  .wm{font-size:44px;margin:10px 0 2px}
+  h2{font-size:20px;margin-bottom:9px}
+  .lede{font-size:14px;line-height:1.55}
+  .ctas{margin-top:18px;gap:8px}
+  .btn{padding:13px 18px;min-height:44px;font-size:13.5px}
+  /* three pills stacked = 3 rows of chrome; one momentum-swiped row instead */
+  .chips{display:flex;flex-wrap:nowrap;gap:6px;margin-top:20px;overflow-x:auto;
+    overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+    -ms-overflow-style:none;padding-bottom:3px;margin-inline:-16px;padding-inline:16px}
+  .chips::-webkit-scrollbar{display:none}
+  .pill{flex:0 0 auto;font-size:11px;padding:7px 12px}
+  .tiles{grid-template-columns:repeat(4,1fr);gap:6px;padding:12px;margin-top:0}
+  .tile{padding:7px}
+  .tile .sz{font-size:12.5px;margin-top:6px}
 }
 @media(prefers-reduced-motion:reduce){
   .rv{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .frame{transform:none!important}
 }
+
+
+/* phone floor: no label under 12px */
+@media (max-width:640px){.chips .pill,.chrome .url,.tick .k{font-size:12px!important}}
 </style>
 </head>
 <body>

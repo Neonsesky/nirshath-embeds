@@ -120,6 +120,61 @@
     .wrap{padding:0 20px}
     .site{padding:92px 0 104px}
   }
+  /* ---------- phone (320px Wix iframe): the tape/sign props are set dressing —
+     keep them, shrink them; pills become one swipeable row; vertical rhythm compressed.
+     Desktop rules above are untouched. ---------- */
+  @media (max-width:560px){
+    .site{padding:56px 0 62px}
+    .wrap{padding:0 16px}
+    .tape{height:26px;background-size:36.75px 36.75px;border-top-width:1px;border-bottom-width:1px;opacity:.9;
+      animation:slide-m 3.2s linear infinite}
+    .tape.t1{top:10px;transform:rotate(-1.6deg)}
+    .tape.t2{bottom:12px;transform:rotate(1.2deg);animation-name:slide-m-rev;animation-duration:4.4s}
+    .v-about .tape.t3{bottom:74px;height:20px}
+    @keyframes slide-m{from{background-position:0 0}to{background-position:36.75px 0}}
+    @keyframes slide-m-rev{from{background-position:0 0}to{background-position:-36.75px 0}}
+    .kicker{gap:10px;margin-bottom:14px}
+    .kicker img{height:26px}
+    .eyebrow{font-size:12px;letter-spacing:.16em}
+    h1{font-size:clamp(34px,11vw,46px);letter-spacing:-.035em}
+    .sub{margin-top:10px;font-size:15px;line-height:1.55}
+    .grid{gap:18px;margin-top:18px}
+    /* the swinging sign goes to a compact inline badge strip, not a 170px column */
+    .signbox{width:100%;display:flex;align-items:center;gap:12px;text-align:left;margin-top:2px}
+    .sign{width:62px;flex:none}
+    .signpost{width:5px;height:26px;margin:-2px 0 0 0}
+    .sign-cap{margin-top:0;font-size:12px;letter-spacing:.14em}
+    .prog{margin-top:24px}
+    .prog-label{font-size:12px;letter-spacing:.16em}
+    .prog-pct{font-size:32px}
+    .bar{height:20px;border-width:2px;border-radius:10px}
+    /* .bar-fill must keep the striped size AND the @keyframes slide on the SAME rule —
+       the animation's travel distance equals one stripe period, so both scale together. */
+    .bar-fill{border-radius:8px;background-size:24px 24px;
+      background:repeating-linear-gradient(-45deg,var(--tape-yellow) 0 12px,var(--tape-black) 12px 24px);
+      animation:slide-m 1.4s linear infinite}
+    @keyframes slide-m{from{background-position:0 0}to{background-position:33.9px 0}}
+    .prog-dates{font-size:12px;margin-top:7px}
+    .days{margin-top:12px;font-size:15px}
+    .days b{font-size:17px}
+    .chips-h{margin-top:22px;font-size:12px;letter-spacing:.16em}
+    /* focus areas: 5 wrapping pills (~120px of height) -> one momentum-swiped row */
+    .chips{display:flex;flex-wrap:nowrap;gap:8px;margin-top:12px;overflow-x:auto;
+      overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+      scroll-snap-type:x proximity;padding:2px 16px 12px;margin-inline:-16px;
+      scrollbar-width:none;-ms-overflow-style:none}
+    .chips::-webkit-scrollbar{display:none}
+    .chip{flex:0 0 auto;scroll-snap-align:start;font-size:14px;padding:10px 15px;
+      -webkit-tap-highlight-color:transparent}
+    .v-about .split{display:grid;grid-template-columns:1fr;gap:24px;margin-top:28px;padding-top:22px}
+    .split h2{font-size:19px;margin-bottom:10px}
+    .split p{font-size:15px}
+    .mini{font-size:15px;padding:10px 0}
+    .mini .st{font-size:12px}
+  }
+  @media (max-width:560px) and (pointer:coarse){
+    .chip:hover{background:#fff;border-color:#000;color:inherit;transform:none} /* no phone-mouse effects */
+  }
   @media (prefers-reduced-motion:reduce){
     .tape,.bar-fill{animation:none}
     .sign{transition:none !important}

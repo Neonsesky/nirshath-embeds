@@ -364,28 +364,123 @@ footer .sig a:hover{color:#fff}
   .float-card{display:none}
 }
 @media (max-width:720px){
-  section{padding:88px 0}
-  .hero{padding-top:96px;padding-bottom:88px;min-height:0}
-  .steps,.icon-rules,.motion-grid,.sw-grid,.type-grid,.surf-grid,.voice-grid,.rules,.built .stats,.gal{grid-template-columns:1fr}
-  .sw-grid{grid-template-columns:1fr 1fr}
-  .icon-strip{grid-template-columns:repeat(5,1fr);gap:8px}
-  .icell{padding:14px 4px}
-  .icell .box{width:40px;height:40px;border-radius:10px}
-  .icell .box .pix{width:19px;height:19px}
-  .icell .nm{font-size:8.5px;letter-spacing:.08em}
-  .step::after{display:none}
-  .shrink-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .kit-block{margin-top:72px}
-  .aurora{bottom:-60vh;height:100vh}
-  .type-scale{gap:22px}
+  .mobile-row{grid-template-columns:1fr;gap:26px;justify-items:center;text-align:center;margin-top:34px}
+  .mobile-copy p{margin:0 auto}
+}
+/* ============ phone (<=720px, Wix mobile iframe = 320px wide) ============
+   Long is fine, dead space is not: sections drop to 56px, and the three
+   grids that explode at 320 (10 swatches, 10 icons, 10 brand-book pages)
+   become single-finger snap rails with a peeking next item. Everything
+   above this block is untouched at desktop widths. */
+@media (max-width:720px){
+  section{padding:56px 0}
+  .hero{padding:72px 0 56px;min-height:0}
+  .hero .eyebrow{margin-bottom:18px}
+  .hero .sub{margin-top:14px;font-size:15px}
+  .hero .ctas{margin-top:24px;gap:10px}
+  .hero .btn{flex:1 1 100%;justify-content:center;min-height:44px}
+  .hero-meta{margin-top:22px;gap:8px}
+  .shrink-stage{margin-top:40px}
+  .shrink-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .file .thumb{aspect-ratio:4/3}
+  .shrink-bar{margin:18px auto 8px}
+  h2{font-size:clamp(27px,8.4vw,34px)}
+  h2 br{display:none}                 /* desktop line breaks don't survive 320px */
+  .lede{font-size:15px;margin-top:12px}
+  .steps{display:flex;grid-template:none;grid-template-columns:none;gap:12px;margin-top:30px;
+    overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;padding:2px 20px 14px;margin-inline:-20px;scrollbar-width:none}
+  .steps::-webkit-scrollbar{display:none}
+  .step{flex:0 0 78%;scroll-snap-align:center;padding:22px 20px 24px}
+  .step::after{display:none}           /* desktop connector arrows don't cross a rail gap */
+  .step h3{margin:14px 0 6px;font-size:16px}
+  .step p{font-size:13px}
+  .shot{margin-top:34px}
+  .kit-block{margin-top:48px}
+  .aurora{bottom:-60vh;height:100vh}   /* from the pre-existing 720px block */
+  .kit-label{margin-bottom:16px;gap:10px}
+  .kit-label .no{font-size:22px}
+  .kit-label .ttl{font-size:12px;letter-spacing:.12em}
+  .kit-label .hint{display:none}       /* "click to …" copy is desktop-mouse language */
+  .wordmark-stage{padding:30px 18px}
+  .wm-clear .wm{font-size:clamp(40px,14vw,64px)}
+  .rules{grid-template-columns:1fr;gap:10px;margin-top:16px}
+  .rule{padding:14px 16px}
+  .rule p{font-size:12.5px}
+  /* swatches / icons / brand book: 10-row grids at 320 = ~2,000px of dead scroll.
+     → one snap rail each: next item peeks (swipe affordance), scrollbar hidden. */
+  .sw-grid,.icon-strip,.gal{display:flex;grid-template:none;grid-template-columns:none;gap:10px;
+    overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;padding:4px 20px 14px;margin-inline:-20px;
+    scrollbar-width:none;-ms-overflow-style:none;scroll-padding-inline:20px}
+  .sw-grid::-webkit-scrollbar,.icon-strip::-webkit-scrollbar,.gal::-webkit-scrollbar{display:none}
+  .sw{flex:0 0 64%;scroll-snap-align:center}
+  .sw .chip{height:64px}
+  .sw:hover{transform:none}
+  .sw .cp{opacity:1}                  /* no hover on touch: keep the copy affordance visible */
+  .sw .meta{padding:10px 12px 12px}
+  .grad-bar{padding:14px 16px;margin-top:14px}
+  .grad-bar .bar{height:44px}
+  .grad-bar .labels{font-size:10.5px;gap:6px;justify-content:space-between}
+  .aurora-note{font-size:12px;margin-top:10px}
+  .type-grid{grid-template-columns:1fr;gap:12px}
+  .spec{padding:20px 18px}
+  .spec .aa{font-size:56px}
+  .spec li{font-size:12px}
+  .type-scale{padding:18px;gap:16px 18px}
+  .icell{flex:0 0 auto;padding:14px 12px;scroll-snap-align:center}
+  .icell .box{width:44px;height:44px;border-radius:12px}
+  .icell .box .pix{width:21px;height:21px}
+  .icell .nm{margin-top:9px;font-size:9px}
+  .icon-rules{grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .gal{margin-top:0}
+  .gal figure{flex:0 0 84%;scroll-snap-align:center;padding:8px;transform:none}
+  .gal figure:hover{transform:none}
+  .gal figcaption{padding:10px 4px 2px;font-size:10px;letter-spacing:.08em}
+  .surf-grid{grid-template-columns:1fr;gap:12px}
+  .surf{padding:18px}
+  .motion-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .mcell{padding:16px}
+  .mcell p{font-size:12px}
+  .voice-grid{grid-template-columns:1fr;gap:12px}
+  .vcol{padding:18px}
+  .vcol li{font-size:13px;padding:7px 0 7px 22px}
+  .figma-grid{margin-top:34px;gap:30px}
+  .plugin-frame{max-width:270px}
+  .figma-price .p{font-size:36px}
+  .built{gap:32px}
+  .built .stats{grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+  .stat{padding:16px 18px}
+  .stat .stat-num{font-size:30px}
+  .timeline li{font-size:13px}
+  .mobile-row{margin-top:30px;gap:22px}
+  .mobile-phone{max-width:230px}
+  .cta .box{padding:40px 18px}
+  .cta h2{font-size:clamp(32px,10vw,44px)}
+  .cta .ctas{flex-direction:column;margin-top:26px}
+  .cta .btn{width:100%;justify-content:center;min-height:44px}
+  footer{padding:38px 0 48px}
+  /* lightbox as a phone viewer: swipeable, 44px targets, caption never covers the page */
+  .lightbox{padding:12px}
+  .lightbox .lb-img{max-height:56vh;border-radius:10px}
+  .lightbox .lb-cap{margin-top:10px;font-size:10.5px;text-align:center;padding:0 60px}
+  .lb-count{top:16px;left:16px;font-size:18px}
+  .lb-close{top:12px;right:12px;width:44px;height:44px}
+  .lb-nav{width:44px;height:44px;font-size:16px}
   .lb-prev{left:8px}.lb-next{right:8px}
-  .gal figcaption{letter-spacing:.06em}
+}
+@media (max-width:720px) and (pointer:coarse){
+  .gal figure:hover,.sw:hover{border-color:var(--border)} /* no sticky hover on touch */
 }
 @media (prefers-reduced-motion:reduce){
   .rv{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .frame,.plugin-frame,.sw,.gal figure{transform:none!important}
 }
+
+
+/* phone floor: no label under 12px */
+@media (max-width:640px){.file .name,.shrink-cap,.chrome .url,.float-card .k,.seg-demo span,.mobile-copy .kicker,.wm-clear .cs,.cs-note,.chip .cp,.meta .use,.labels span,.cap,.icell .nm,.surf .k,.surf b,.surf span,.stat .lbl,.claude-card .kicker,.card>div>b,.card>div>span,.card figcaption b,.card figcaption span{font-size:12px!important}}
 </style>
 </head>
 <body>
@@ -796,6 +891,15 @@ document.getElementById('lbClose').addEventListener('click',closeLB);
 document.getElementById('lbPrev').addEventListener('click',function(){openLB(cur-1);});
 document.getElementById('lbNext').addEventListener('click',function(){openLB(cur+1);});
 lb.addEventListener('click',function(e){if(e.target===lb)closeLB();});
+/* phone: swipe the open page left/right to turn the brand book (desktop keeps arrows + keys) */
+if(matchMedia('(pointer:coarse)').matches){
+  var sx=null;
+  lb.addEventListener('touchstart',function(e){if(e.touches.length===1)sx=e.touches[0].clientX;},{passive:true});
+  lb.addEventListener('touchend',function(e){
+    if(sx===null)return;var dx=(e.changedTouches[0].clientX)-sx;sx=null;
+    if(Math.abs(dx)>46)openLB(cur+(dx<0?1:-1));
+  },{passive:true});
+}
 addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;
   if(e.key==='Escape')closeLB();if(e.key==='ArrowLeft')openLB(cur-1);if(e.key==='ArrowRight')openLB(cur+1);});
 

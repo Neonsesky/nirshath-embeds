@@ -1,5 +1,6 @@
 <!doctype html>
-<!-- marquee.html — AI tools the designer uses. Recommended iframe height: desktop 460px, mobile 420px (measured 408/355 + padding). Width: full strip. -->
+<!-- marquee.html — AI tools the designer uses. Recommended iframe height: desktop 460px, mobile 300px (measured ~270 at 320w + padding). Width: full strip.
+     Mobile (<=899px): CSS animation is replaced by a JS driver — continuous drift + touch-drag + inertia, no hover pause, no instruction text. Desktop untouched. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -34,6 +35,20 @@ h2 b{color:#fff}
 .row--rev .track{animation-direction:reverse;animation-duration:58s}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (max-width:640px){:root{--mark-h:28px;--gap:36px}.wrap{padding:30px 0 34px}h2{margin-bottom:22px}}
+/* ---- mobile (<=899px = Wix 320px iframe): touch-driven marquee. Desktop rules above are untouched. ---- */
+@media (max-width:899px){
+  .wrap{padding:26px 0 24px}
+  .kicker{font-size:12px;margin-bottom:8px}
+  h2{margin-bottom:18px}
+  :root{--mark-h:26px;--gap:30px}
+  .row{padding:10px 0;touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none}
+  .row.dragging{cursor:grabbing}
+  .mq-item{gap:8px}
+  /* the big wordmark already spells the name — the small-caps duplicate is clutter at phone width */
+  .mq-item:has(.mq-word) .mq-label{display:none}
+  .mq-label{font-size:12px;color:rgba(255,255,255,.5)}
+  .track{animation:none}   /* the JS driver below takes over: drift + drag + inertia */
+}
 @media (prefers-reduced-motion:reduce){
   .track{animation:none!important;transform:none!important}
   .row{overflow-x:auto;cursor:auto}
@@ -54,6 +69,60 @@ h2 b{color:#fff}
 (function(){
   function postH(){ parent.postMessage({type:'embed-height', h: document.documentElement.scrollHeight}, '*'); }
   addEventListener('load', postH); addEventListener('resize', postH); postH();
+
+  /* --- mobile (<=899px) touch marquee: continuous drift + touch-drag + inertia.
+         No hover pause, no instruction text, page scroll stays vertical (touch-action:pan-y).
+         Desktop keeps the CSS animation above — this driver never binds there. --- */
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var mq = matchMedia('(max-width:899px)');
+  var bound = false;
+  function bind(){
+    if (bound || !mq.matches) return;
+    bound = true;
+    document.querySelectorAll('.row').forEach(function(row){
+      var track = row.querySelector('.track');
+      track.style.animation = 'none';
+      var period = function(){ return track.scrollWidth/2; };   /* track = set duplicated twice */
+      var dur = parseFloat(row.dataset.speed) || 46;
+      var dir = row.classList.contains('row--rev') ? -1 : 1;
+      var x = 0, vel = 0, dragging = false, lastX = 0, lastT = 0;
+      function apply(){
+        var p = period();
+        x = ((x % p) + p) % p;
+        track.style.transform = 'translateX(' + (-x) + 'px)';
+      }
+      function base(){ return dir * period() / (dur*60); }       /* px per ~16ms frame */
+      row.addEventListener('pointerdown', function(e){
+        dragging = true; vel = 0; lastX = e.clientX; lastT = e.timeStamp;
+        row.classList.add('dragging');
+        try{ row.setPointerCapture(e.pointerId); }catch(err){}
+      });
+      row.addEventListener('pointermove', function(e){
+        if(!dragging) return;
+        var dx = e.clientX - lastX, dt = Math.max(1, e.timeStamp - lastT);
+        x -= dx;                                   /* drag follows the finger */
+        vel = -dx/dt*16;                           /* px per frame, from the finger */
+        lastX = e.clientX; lastT = e.timeStamp;
+        apply();
+      });
+      function up(){ dragging = false; row.classList.remove('dragging'); }
+      row.addEventListener('pointerup', up);
+      row.addEventListener('pointercancel', up);
+      (function loop(){
+        if(!dragging){
+          var b = base();
+          vel += (b - vel) * 0.025;                /* finger inertia eases back to drift */
+          if (Math.abs(vel - b) < Math.abs(b)*0.02) vel = b;
+          x += vel;
+          apply();
+        }
+        requestAnimationFrame(loop);
+      })();
+      apply();
+    });
+  }
+  addEventListener('load', bind);
+  if (mq.matches) addEventListener('load', bind);
 })();
 </script>
 <script src="https://neonsesky.github.io/nirshath-embeds/lib/wheel-relay.js" defer></script>

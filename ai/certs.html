@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- certs.html — AI certifications, interactive cards. Recommended iframe height: desktop 1300px, mobile 2760px (measured 1224/2691). -->
+<!-- certs.html — AI certifications, interactive cards. Recommended iframe height: desktop 1300px, mobile 1150px (mobile = horizontal swipe carousel of the 6 certs, measured ~1120 at 320w). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -22,7 +22,40 @@ h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,3
 .lede{color:var(--dim);font-size:15px;line-height:1.6;max-width:560px;margin-bottom:44px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:640px){.grid{grid-template-columns:1fr}.wrap{padding:44px 18px 56px}}
+@media (max-width:640px){
+  /* 320px Wix iframe: 6 stacked cards (~2,700px) become one swipeable row —
+     peeking next card, hidden scrollbar, snap. Desktop grid above is untouched. */
+  .wrap{padding:36px 0 44px}
+  .kicker{padding:0 18px}
+  h2{padding:0 18px;font-size:26px}
+  .lede{padding:0 18px;font-size:15px;margin-bottom:26px}
+  .grid{display:flex;grid-template:none;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 18px 14px;
+    scrollbar-width:none;-ms-overflow-style:none}
+  .grid::-webkit-scrollbar{display:none}
+  .card{flex:0 0 84%;scroll-snap-align:center;min-height:0;padding:22px 20px 20px;
+    cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .card .thumb img{transform:none}
+  .card h3{font-size:19px}
+  .card p{font-size:15px}
+  .issuer .iw{font-size:15px}
+  .date{font-size:12px;letter-spacing:.08em}
+  .tag{font-size:12px;letter-spacing:.06em;padding:6px 11px}
+  .more{font-size:12px;min-height:20px}
+  .aif-word{font-size:26px}
+  .aif-school{font-size:12px;letter-spacing:.3em}
+  .dots{display:flex;gap:7px;justify-content:center;padding:2px 18px 0}
+  .dots button{width:8px;height:8px;padding:0;border-radius:50%;border:0;background:rgba(255,255,255,.22);
+    cursor:pointer;transition:background .25s,transform .25s}
+  .dots button.on{background:var(--purple);transform:scale(1.35)}
+  .dots b{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  /* lightbox at phone width: full-bleed sheet, 44px close target */
+  .lb{padding:0;align-items:flex-end}
+  .lb-panel{max-width:none;max-height:88vh;border-radius:18px 18px 0 0;padding:22px 18px 30px}
+  .lb-close{width:44px;height:44px;top:12px;right:12px}
+  .lb p{font-size:15px}
+}
+@media (min-width:641px){.dots{display:none}}
 
 .card{position:relative;border-radius:18px;background:linear-gradient(160deg,#181b28,#101219);
   border:1px solid var(--line);padding:26px 24px 22px;min-height:300px;cursor:pointer;
@@ -81,7 +114,11 @@ h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,3
   .card,.glare{transition:none}
 }
 </style>
-<style>html.nohead .kicker,html.nohead h2{display:none}</style>
+<style>html.nohead .kicker,html.nohead h2{display:none}
+
+/* phone floor: no label under 12px */
+@media (max-width:640px){.issuer .date,.aif-school,.tags .tag{font-size:12px!important}}
+</style>
 <script>if(/nohead/.test(location.search))document.documentElement.classList.add("nohead")</script>
 </head>
 <body>
@@ -180,9 +217,8 @@ h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,3
     </article>
 
   </div>
+  <div class="dots" id="dots" role="tablist" aria-label="Certificate position"></div>
 </div>
-
-<!-- lightbox -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Certificate detail">
   <div class="lb-panel">
     <button class="lb-close" aria-label="Close">&#10005;</button>
@@ -237,6 +273,38 @@ h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(24px,3
 
   // lightbox
   var lb = document.getElementById('lb'), body = document.getElementById('lb-body');
+
+  // mobile carousel dots (320px): built once, kept in sync with scroll-snap position
+  var grid = document.getElementById('grid'), dots = document.getElementById('dots');
+  var cards = [].slice.call(grid.querySelectorAll('.card'));
+  if (dots && cards.length){
+    dots.innerHTML = cards.map(function(c,i){
+      var t = (c.getAttribute('aria-label')||'certificate').split(',')[0];
+      return '<button role="tab" aria-label="Go to certificate '+(i+1)+': '+t+'" aria-selected="'+(i===0)+'"><b>'+(i+1)+'</b></button>';
+    }).join('');
+    var dBtns = [].slice.call(dots.querySelectorAll('button'));
+    dBtns.forEach(function(b,i){ b.addEventListener('click', function(){
+      cards[i].scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    });});
+    var raf = 0;
+    grid.addEventListener('scroll', function(){
+      if (raf) return;
+      raf = requestAnimationFrame(function(){
+        raf = 0;
+        if (!dBtns.length) return;
+        var c = grid.clientWidth/2, best = 0, bd = Infinity;
+        cards.forEach(function(card,i){
+          var r = card.getBoundingClientRect(), d = Math.abs(r.left + r.width/2 - c);
+          if (d < bd){ bd = d; best = i; }
+        });
+        dBtns.forEach(function(b,i){
+          b.classList.toggle('on', i===best);
+          b.setAttribute('aria-selected', i===best);
+        });
+      });
+    }, {passive:true});
+    dBtns[0].classList.add('on');
+  }
   document.querySelectorAll('.card').forEach(function(card){
     function open(){
       var c = certs[+card.dataset.cert];
