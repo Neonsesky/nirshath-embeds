@@ -66,6 +66,7 @@
       try { a.effect.updateTiming({ easing: EASE, duration: newDur }); } catch (e) {}
       // Blur-in only on anims that haven't played yet (no re-flash), never on touch,
       // never on scroll-scrubbed anims (filter would fight the scrub for the compositor).
+      continue; // blur-in removed (smoothness)
       if (touch || !wall || a.playState === 'finished') continue;
       try {
         t.animate([{ filter: 'blur(' + CFG.wixBlur + 'px)' },
@@ -150,8 +151,8 @@
                    { duration: CFG.revealDur, delay: delay, easing: EASE, fill: 'both' });
       } else {
         el.style.opacity = '';                                           // WAAPI owns opacity
-        el.animate([{ opacity: 0, transform: 'translateY(' + CFG.revealDrop + 'px)', filter: 'blur(' + CFG.revealBlur + 'px)' },
-                    { opacity: 1, transform: 'translateY(0px)', filter: 'blur(0px)' }],
+        el.animate([{ opacity: 0, transform: 'translateY(' + CFG.revealDrop + 'px)' },
+                    { opacity: 1, transform: 'translateY(0px)' }],
                    { duration: CFG.revealDur, delay: delay, easing: EASE, fill: 'both' });
       }
     } catch (e) {}
@@ -243,7 +244,7 @@
     if (reduce) return;                                                  // accessibility wins: do nothing
     if (!document.getElementById('SITE_PAGES')) { setTimeout(start, 200); return; }
     boot();
-    if (!touch && !blurOff) { lastY = window.scrollY; requestAnimationFrame(scrollLoop); } // blur: pointer only
+    /* scroll velocity blur removed */
   }
 
   /* ---------- 5) inertial smooth wheel scrolling (desktop mouse/trackpad) ---------- */
