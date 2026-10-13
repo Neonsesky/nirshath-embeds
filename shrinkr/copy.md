@@ -140,3 +140,8 @@ Every banner under 120 KB — automatically.
 Bulk compress, convert and resize, 100% in your browser. Nothing ever uploads.
 [See the case study →] [Try Shrinkr →]
 2.4 MB → 118 KB · WebP · JPEG · PNG · Auto
+
+## Measured embed heights (for Wix iframe sizing)
+- The page auto-reports its height to the parent frame via postMessage ({type:"embed-height",h}), so the Wix iframe self-resizes; these are the settled full-page heights.
+- shrinkr.html — desktop 1440w: 12,396px · mobile 390w: 16,548px · Wix mobile canvas 320w: 17,033px
+- banner.html — desktop 1440w: 637px · mobile 390w: 1,292px · Wix mobile canvas 320w: 1,232px
