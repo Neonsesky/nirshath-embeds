@@ -22,7 +22,7 @@ Illustration · every image squeezed under a 120 KB budget
 
 ## 01 · The product
 ### Bulk export, zero uploads.
-Shrinkr batch-compresses, converts and resizes design exports to a hard KB budget — every byte processed on your device.
+Batch-compress, convert and resize design exports to a hard KB budget — every byte on your device.
 
 (Real app screenshots: dropzone, settings panel, mobile view. Target size 2.4 MB → 118 KB. Output format: WebP / JPEG / PNG / Auto.)
 
