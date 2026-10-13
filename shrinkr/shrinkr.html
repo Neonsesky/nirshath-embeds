@@ -694,7 +694,7 @@ var PAGES=[['Cover','Shrinkr · Brand Book v1.0'],['Identity','The wordmark'],['
 var gal=document.getElementById('gal');
 gal.innerHTML=PAGES.map(function(p,i){
   var n=String(i+1).padStart(2,'0');
-  return '<figure class="card rv d'+(i%5)+'" data-i="'+i+'" tabindex="0" role="button" aria-label="Open brand book page: '+p[0]+'"><div class="ph"><img src="assets/brandbook/bb-'+(i+1)+'.webp" width="1200" height="675" alt="Shrinkr Brand Book page '+(i+1)+': '+p[0]+'" loading="lazy"></div><figcaption><b>'+p[0]+'</b><span>'+n+'</span></figcaption></figure>';
+  return '<figure class="card rv d'+(i%5)+'" data-i="'+i+'" tabindex="0" role="button" aria-label="Open brand book page: '+p[0]+'"><div class="ph"><img src="assets/brandbook/bb-'+(i+1)+'.webp" width="1600" height="900" alt="Shrinkr Brand Book page '+(i+1)+': '+p[0]+'" loading="lazy"></div><figcaption><b>'+p[0]+'</b><span>'+n+'</span></figcaption></figure>';
 }).join('');
 
 /* ---------- reveals: IntersectionObserver + hard 2s fallback (covers injected cells) ---------- */
