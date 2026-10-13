@@ -159,6 +159,17 @@
     unhide(el);
   }
 
+  /* scroll-ghosting fix: the injected hover transitions were easing Wix's scroll-driven
+     transforms/filters on images, which trailed behind the scroll (shadow/ghost look). */
+  (function () {
+    var st = document.createElement('style'); st.id = 'nxm-noghost';
+    st.textContent = '#SITE_PAGES img, #SITE_PAGES wow-image, #SITE_PAGES a, #SITE_PAGES button,' +
+      '#SITE_PAGES [role="button"], #SITE_PAGES .wixui-button, #SITE_PAGES .wixui-galleryitem' +
+      '{ transition-property: opacity, background-color, border-color, color, box-shadow !important; }' +
+      '#SITE_PAGES img, #SITE_PAGES wow-image { transition: none !important; filter: none; }';
+    document.head.appendChild(st);
+  })();
+
   /* ---------- 3) scroll velocity blur (vertical, capped, decays to 0) ---------- */
   var blurEl = document.getElementById('nxm-blur');
   var pagesEl = document.getElementById('SITE_PAGES');
@@ -252,7 +263,7 @@
     var fine = window.matchMedia && matchMedia('(pointer: fine)').matches;
     if (reduce || touch || !fine || window.__nxSmooth) return;
     window.__nxSmooth = true;
-    var SM = { lerp: 0.085, mul: 1.0, maxStep: 260 };
+    var SM = { lerp: 0.17, mul: 1.0, maxStep: 260 };
     var se = document.scrollingElement || document.documentElement;
     var target = window.scrollY, pos = target, running = false, lastSet = -1, lastT = 0;
     function maxY() { return Math.max(0, se.scrollHeight - innerHeight); }
