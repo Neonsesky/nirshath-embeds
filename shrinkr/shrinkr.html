@@ -1,7 +1,7 @@
 <!doctype html>
 <!-- shrinkr/shrinkr.html — dedicated Shrinkr case-study embed (portfolio site).
      Brand source: Shrinkr Brand Book v1.0 (colours, Jacquard 24 + Inter, pixel icons, aurora recipe, motion, voice).
-     Recommended Wix iframe height: desktop 1440w -> 10640px; mobile 320w -> 16100px (measured, see copy.md).
+     Recommended Wix iframe height: desktop 1440w -> 12500px; mobile 320w -> 17250px (measured, see copy.md).
      Self-contained: self-hosted subset fonts, no external network deps. -->
 <html lang="en">
 <head>
@@ -37,7 +37,9 @@ body{background:var(--bg);color:var(--body);font-family:Inter,-apple-system,sans
 img{display:block;max-width:100%}
 ::selection{background:#FF0069;color:#fff}
 :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px}
-.wrap{max-width:1100px;margin:0 auto;padding:0 clamp(20px,4vw,40px);position:relative;z-index:1}
+/* .container = horizontal width only. Longhand padding: the shorthand used to zero
+   section's 140px vertical padding (class beats element selector in the cascade). */
+.container{max-width:1100px;margin:0 auto;padding-left:clamp(20px,4vw,40px);padding-right:clamp(20px,4vw,40px);position:relative;z-index:1}
 section{padding:140px 0;position:relative}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
@@ -108,7 +110,7 @@ h3{color:var(--white);font-size:16px;font-weight:700;font-family:Inter,sans-seri
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
 
 /* ============ hero ============ */
-.hero{min-height:min(92vh,860px);display:flex;flex-direction:column;justify-content:center;padding:120px 0 110px;text-align:center}
+.hero{min-height:min(92vh,860px);display:flex;flex-direction:column;justify-content:center;padding-top:120px;padding-bottom:110px;text-align:center}
 .hero .eyebrow{margin-bottom:26px;justify-content:center}
 .hero h1{margin:0 auto}
 .hero .sub{color:var(--muted);font-size:clamp(15px,1.6vw,17px);max-width:640px;margin:22px auto 0}
@@ -363,7 +365,7 @@ footer .sig a:hover{color:#fff}
 }
 @media (max-width:720px){
   section{padding:88px 0}
-  .hero{padding:96px 0 88px;min-height:0}
+  .hero{padding-top:96px;padding-bottom:88px;min-height:0}
   .steps,.icon-rules,.motion-grid,.sw-grid,.type-grid,.surf-grid,.voice-grid,.rules,.built .stats,.gal{grid-template-columns:1fr}
   .sw-grid{grid-template-columns:1fr 1fr}
   .icon-strip{grid-template-columns:repeat(5,1fr);gap:8px}
@@ -392,7 +394,7 @@ footer .sig a:hover{color:#fff}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- ============ 1 · HERO ============ -->
-<header class="hero wrap">
+<header class="hero container">
   <span class="eyebrow rv"><i></i>Side product · Brand + build · With Claude</span>
   <h1 class="rv d1">Shrinkr</h1>
   <p class="sub rv d2">The designer's bulk image studio — <b>private, instant, in the browser.</b> Drop a folder, hit a hard KB budget, get the same folder back.</p>
@@ -420,7 +422,7 @@ footer .sig a:hover{color:#fff}
 
 <main>
 <!-- ============ 2 · THE PRODUCT ============ -->
-<section id="product" class="wrap">
+<section id="product" class="container">
   <div class="glowline" aria-hidden="true"></div>
   <span class="eyebrow rv"><i></i>01 · The product</span>
   <h2 class="rv d1">Bulk export, <span class="grad">zero uploads.</span></h2>
@@ -448,7 +450,7 @@ footer .sig a:hover{color:#fff}
 </section>
 
 <!-- ============ 3 · HOW IT WORKS ============ -->
-<section id="how" class="wrap">
+<section id="how" class="container">
   <div class="glowline" aria-hidden="true"></div>
   <span class="eyebrow rv"><i></i>02 · How it works</span>
   <h2 class="rv d1">Drop. Set. <span class="grad">Download.</span></h2>
@@ -464,7 +466,7 @@ footer .sig a:hover{color:#fff}
 </section>
 
 <!-- ============ 4 · BRAND DESIGN KIT (centrepiece) ============ -->
-<section id="kit" class="wrap">
+<section id="kit" class="container">
   <div class="glowline" aria-hidden="true"></div>
   <div class="kit-head">
     <span class="eyebrow rv"><i></i>03 · Brand design kit</span>
@@ -597,7 +599,7 @@ footer .sig a:hover{color:#fff}
 </div>
 
 <!-- ============ 5 · FIGMA PLUGIN ============ -->
-<section id="figma" class="wrap">
+<section id="figma" class="container">
   <div class="glowline" aria-hidden="true"></div>
   <span class="eyebrow rv"><i></i>04 · The Figma plugin</span>
   <div class="figma-grid">
@@ -616,7 +618,7 @@ footer .sig a:hover{color:#fff}
 </section>
 
 <!-- ============ 6 · HOW I BUILT IT ============ -->
-<section id="built" class="wrap">
+<section id="built" class="container">
   <div class="glowline" aria-hidden="true"></div>
   <span class="eyebrow rv"><i></i>05 · How I built it</span>
   <div class="built">
@@ -643,7 +645,7 @@ footer .sig a:hover{color:#fff}
 </section>
 
 <!-- ============ 7 · CTA ============ -->
-<section id="cta" class="wrap cta">
+<section id="cta" class="container cta">
   <div class="glowline" aria-hidden="true"></div>
   <div class="box card rv">
     <span class="eyebrow" style="justify-content:center"><i></i>Ready</span>
@@ -658,7 +660,7 @@ footer .sig a:hover{color:#fff}
 </section>
 </main>
 
-<footer class="wrap">
+<footer class="container">
   <div class="wm">Shrinkr</div>
   <p class="sig">Brand Book v1.0 · Designed and built by <a href="https://www.nirshath.com" target="_top">Nirshath Madhusanka</a> · nirshath.com</p>
 </footer>
@@ -668,7 +670,34 @@ footer .sig a:hover{color:#fff}
 "use strict";
 var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- reveals: IntersectionObserver + hard 2s fallback ---------- */
+/* ---------- pixel icons + brand book gallery: injected BEFORE reveal registration
+   so the reveal observer + 2s fallback cover these dynamic cells too ---------- */
+var ICONS=[
+ ['upload','<rect x="4" y="1" width="4" height="1"/><rect x="2" y="2" width="2" height="1"/><rect x="8" y="2" width="2" height="1"/><rect x="1" y="4" width="1" height="4"/><rect x="10" y="4" width="1" height="4"/><rect x="2" y="9" width="1" height="1"/><rect x="8" y="9" width="1" height="1"/><rect x="4" y="10" width="4" height="1"/><rect x="2" y="5" width="8" height="1"/><rect x="5" y="2" width="1" height="8"/><rect x="6" y="2" width="1" height="8"/>'],
+ ['download','<rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="10" height="2"/><rect x="10" y="8" width="2" height="2"/><rect x="5" y="1" width="2" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="5" y="2" width="2" height="6"/>'],
+ ['folder','<rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="10" height="2"/><rect x="10" y="8" width="2" height="2"/><rect x="5" y="1" width="2" height="5"/><rect x="3" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="5" y="6" width="2" height="1"/><rect x="5" y="7" width="2" height="1"/>'],
+ ['target','<rect x="4" y="1" width="4" height="1"/><rect x="2" y="2" width="2" height="1"/><rect x="8" y="2" width="2" height="1"/><rect x="1" y="4" width="1" height="4"/><rect x="10" y="4" width="1" height="4"/><rect x="2" y="9" width="2" height="1"/><rect x="8" y="9" width="2" height="1"/><rect x="4" y="10" width="4" height="1"/><rect x="2" y="5" width="8" height="1"/><rect x="5" y="2" width="1" height="8"/><rect x="6" y="2" width="1" height="8"/>'],
+ ['swap','<rect x="1" y="2" width="4" height="1"/><rect x="1" y="3" width="10" height="1"/><rect x="1" y="4" width="1" height="6"/><rect x="10" y="4" width="1" height="6"/><rect x="1" y="9" width="10" height="1"/><rect x="2" y="5" width="8" height="1"/>'],
+ ['resize','<rect x="1" y="1" width="3" height="1"/><rect x="1" y="1" width="1" height="3"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="8" y="10" width="3" height="1"/><rect x="10" y="8" width="1" height="3"/>'],
+ ['lock','<rect x="4" y="1" width="4" height="1"/><rect x="3" y="2" width="1" height="2"/><rect x="8" y="2" width="1" height="2"/><rect x="2" y="4" width="8" height="1"/><rect x="2" y="10" width="8" height="1"/><rect x="2" y="5" width="1" height="5"/><rect x="9" y="5" width="1" height="5"/><rect x="5" y="6" width="2" height="2"/><rect x="5" y="8" width="2" height="1"/>'],
+ ['zoom','<rect x="3" y="1" width="4" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="4"/><rect x="8" y="3" width="1" height="4"/><rect x="2" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="3" y="8" width="4" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="9" y="9" width="2" height="2"/>'],
+ ['save','<rect x="4" y="1" width="4" height="1"/><rect x="3" y="2" width="1" height="2"/><rect x="8" y="2" width="1" height="2"/><rect x="2" y="4" width="8" height="1"/><rect x="2" y="10" width="8" height="1"/><rect x="2" y="5" width="1" height="5"/><rect x="9" y="5" width="1" height="5"/><rect x="5" y="6" width="2" height="2"/><rect x="5" y="8" width="2" height="1"/>'],
+ ['globe','<rect x="3" y="1" width="4" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="4"/><rect x="8" y="3" width="1" height="4"/><rect x="2" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="3" y="8" width="4" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="9" y="9" width="2" height="2"/>']
+];
+document.getElementById('iconStrip').innerHTML=ICONS.map(function(ic,i){
+  return '<div class="icell card rv d'+(i%5)+'"><span class="box"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">'+ic[1]+'</svg></span><div class="nm">'+ic[0]+'</div></div>';
+}).join('');
+
+var PAGES=[['Cover','Shrinkr · Brand Book v1.0'],['Identity','The wordmark'],['Colour','Void & aurora'],['The aurora','A living gradient'],
+ ['Typography','Jacquard speaks, Inter works'],['Iconography','Pixels, like the type'],['Surfaces','Calm glass over living light'],
+ ['Motion','Slow is premium'],['Voice','Designer to designer'],['Back cover','Brand Book v1.0']];
+var gal=document.getElementById('gal');
+gal.innerHTML=PAGES.map(function(p,i){
+  var n=String(i+1).padStart(2,'0');
+  return '<figure class="card rv d'+(i%5)+'" data-i="'+i+'" tabindex="0" role="button" aria-label="Open brand book page: '+p[0]+'"><div class="ph"><img src="assets/brandbook/bb-'+(i+1)+'.webp" width="1200" height="675" alt="Shrinkr Brand Book page '+(i+1)+': '+p[0]+'" loading="lazy"></div><figcaption><b>'+p[0]+'</b><span>'+n+'</span></figcaption></figure>';
+}).join('');
+
+/* ---------- reveals: IntersectionObserver + hard 2s fallback (covers injected cells) ---------- */
 var rv=[].slice.call(document.querySelectorAll('.rv'));
 function show(el){el.classList.add('in');}
 if(reduce){rv.forEach(show);}
@@ -754,32 +783,7 @@ function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt)
   });
 });
 
-/* ---------- pixel icons (from the app, 12×12 crispEdges) ---------- */
-var ICONS=[
- ['upload','<rect x="4" y="1" width="4" height="1"/><rect x="2" y="2" width="2" height="1"/><rect x="8" y="2" width="2" height="1"/><rect x="1" y="4" width="1" height="4"/><rect x="10" y="4" width="1" height="4"/><rect x="2" y="9" width="2" height="1"/><rect x="8" y="9" width="2" height="1"/><rect x="4" y="10" width="4" height="1"/><rect x="2" y="5" width="8" height="1"/><rect x="5" y="2" width="1" height="8"/><rect x="6" y="2" width="1" height="8"/>'],
- ['download','<rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/><rect x="5" y="1" width="2" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="5" y="2" width="2" height="6"/>'],
- ['folder','<rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/><rect x="5" y="1" width="2" height="5"/><rect x="3" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="5" y="6" width="2" height="1"/><rect x="5" y="7" width="2" height="1"/>'],
- ['target','<rect x="4" y="1" width="4" height="1"/><rect x="2" y="2" width="2" height="1"/><rect x="8" y="2" width="2" height="1"/><rect x="1" y="4" width="1" height="4"/><rect x="10" y="4" width="1" height="4"/><rect x="2" y="9" width="2" height="1"/><rect x="8" y="9" width="2" height="1"/><rect x="4" y="10" width="4" height="1"/><rect x="2" y="5" width="8" height="1"/><rect x="5" y="2" width="1" height="8"/><rect x="6" y="2" width="1" height="8"/>'],
- ['swap','<rect x="1" y="2" width="4" height="1"/><rect x="1" y="3" width="10" height="1"/><rect x="1" y="4" width="1" height="6"/><rect x="10" y="4" width="1" height="6"/><rect x="1" y="9" width="10" height="1"/><rect x="2" y="5" width="8" height="1"/>'],
- ['resize','<rect x="1" y="1" width="3" height="1"/><rect x="1" y="1" width="1" height="3"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="8" y="10" width="3" height="1"/><rect x="10" y="8" width="1" height="3"/>'],
- ['lock','<rect x="4" y="1" width="4" height="1"/><rect x="3" y="2" width="1" height="2"/><rect x="8" y="2" width="1" height="2"/><rect x="2" y="4" width="8" height="1"/><rect x="2" y="10" width="8" height="1"/><rect x="2" y="5" width="1" height="5"/><rect x="9" y="5" width="1" height="5"/><rect x="5" y="6" width="2" height="2"/><rect x="5" y="8" width="2" height="1"/>'],
- ['zoom','<rect x="3" y="1" width="4" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="4"/><rect x="8" y="3" width="1" height="4"/><rect x="2" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="3" y="8" width="4" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="9" y="9" width="2" height="2"/>'],
- ['save','<rect x="4" y="1" width="4" height="1"/><rect x="3" y="2" width="1" height="2"/><rect x="8" y="2" width="1" height="2"/><rect x="2" y="4" width="8" height="1"/><rect x="2" y="10" width="8" height="1"/><rect x="2" y="5" width="1" height="5"/><rect x="9" y="5" width="1" height="5"/><rect x="5" y="6" width="2" height="2"/><rect x="5" y="8" width="2" height="1"/>'],
- ['globe','<rect x="3" y="1" width="4" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="4"/><rect x="8" y="3" width="1" height="4"/><rect x="2" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="3" y="8" width="4" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="9" y="9" width="2" height="2"/>']
-];
-document.getElementById('iconStrip').innerHTML=ICONS.map(function(ic,i){
-  return '<div class="icell card rv d'+(i%5)+'"><span class="box"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">'+ic[1]+'</svg></span><div class="nm">'+ic[0]+'</div></div>';
-}).join('');
-
-/* ---------- brand book gallery + lightbox ---------- */
-var PAGES=[['Cover','Shrinkr · Brand Book v1.0'],['Identity','The wordmark'],['Colour','Void & aurora'],['The aurora','A living gradient'],
- ['Typography','Jacquard speaks, Inter works'],['Iconography','Pixels, like the type'],['Surfaces','Calm glass over living light'],
- ['Motion','Slow is premium'],['Voice','Designer to designer'],['Back cover','Brand Book v1.0']];
-var gal=document.getElementById('gal');
-gal.innerHTML=PAGES.map(function(p,i){
-  var n=String(i+1).padStart(2,'0');
-  return '<figure class="card rv d'+(i%5)+'" data-i="'+i+'" tabindex="0" role="button" aria-label="Open brand book page: '+p[0]+'"><div class="ph"><img src="assets/brandbook/bb-'+(i+1)+'.webp" width="1200" height="675" alt="Shrinkr Brand Book page '+(i+1)+': '+p[0]+'" loading="lazy"></div><figcaption><b>'+p[0]+'</b><span>'+n+'</span></figcaption></figure>';
-}).join('');
+/* ---------- lightbox ---------- */
 var lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap'),lbCount=document.getElementById('lbCount'),cur=0;
 function openLB(i){cur=(i+10)%10;var n=cur+1;
   lbImg.src='assets/brandbook/bb-'+n+'.webp';lbImg.alt='Shrinkr Brand Book page '+n+': '+PAGES[cur][0];
