@@ -171,7 +171,7 @@ h2 em{font-style:normal;color:var(--amber)}
   if (!reduce){ addEventListener('scroll', prog, {passive:true}); setTimeout(function(){steps.style.setProperty('--prog',1)},2200); }
 
   (function(){var a=document.getElementById('seeWork');if(!a)return;
-    var onMbio=/multibank-mbio/.test(document.referrer||'');
+    var onMbio=/[?&]p=mbio/.test(location.search)||/multibank-mbio/.test(document.referrer||'');
     a.addEventListener('click',function(e){ if(!onMbio) return; e.preventDefault();
       parent.postMessage({type:'nx-scrollto',target:'selected-work'},'*'); });
   })();
