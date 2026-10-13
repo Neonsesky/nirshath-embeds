@@ -1,0 +1,818 @@
+<!doctype html>
+<!-- shrinkr/shrinkr.html — dedicated Shrinkr case-study embed (portfolio site).
+     Brand source: Shrinkr Brand Book v1.0 (colours, Jacquard 24 + Inter, pixel icons, aurora recipe, motion, voice).
+     Recommended Wix iframe height: desktop 1440w -> 10640px; mobile 320w -> 16100px (measured, see copy.md).
+     Self-contained: self-hosted subset fonts, no external network deps. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shrinkr — the designer's bulk image studio · Case study by Nirshath Madhusanka</title>
+<meta name="description" content="Shrinkr is a 100% client-side bulk image studio that compresses, converts and resizes design exports to a hard KB budget. Full brand kit: wordmark, aurora colour, Jacquard 24 + Inter type, pixel icons, voice. Designed and built by Nirshath Madhusanka with Claude.">
+<link rel="icon" href="assets/favicon.svg">
+<style>
+/* ============ brand tokens — Shrinkr Brand Book v1.0 ============ */
+@font-face{font-family:'Jacquard 24';src:url('assets/fonts/jacquard24-regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/fonts/inter-regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/fonts/inter-medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/fonts/inter-semibold.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Inter';src:url('assets/fonts/inter-bold.woff2') format('woff2');font-weight:700;font-display:swap}
+:root{
+  --bg:#000000;                    /* void */
+  --card:rgba(12,12,16,.72); --border:rgba(255,255,255,.10); --border-strong:rgba(255,255,255,.22);
+  --white:#FFFFFF; --body:#C6C6CF; --muted:#9A9AA6;
+  --cyan:#22D3EE; --blue:#2563EB; --violet:#A855F7; --magenta:#FF1FAE; --crimson:#FF2E4D; --orange:#FF8A00;
+  --green:#3DDC97;
+  --grad:radial-gradient(95% 120% at 12% 12%,#FF3D00 0%,rgba(255,61,0,0) 56%),
+         radial-gradient(115% 130% at 88% 22%,#FF0069 0%,rgba(255,0,105,0) 60%),
+         radial-gradient(145% 155% at 50% 112%,#A855F7 0%,#7C1FD1 100%);
+  --grad-text:linear-gradient(100deg,#FF5A24,#FF2E8C 55%,#B96BFF);
+  --radius:16px; --ease:cubic-bezier(.4,0,.2,1);
+  --font-display:'Jacquard 24',Inter,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);overflow-x:clip}
+body{background:var(--bg);color:var(--body);font-family:Inter,-apple-system,sans-serif;font-size:15px;line-height:1.55;
+  overflow-x:hidden;overflow-x:clip;width:100%;position:relative;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+::selection{background:#FF0069;color:#fff}
+:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 clamp(20px,4vw,40px);position:relative;z-index:1}
+section{padding:140px 0;position:relative}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* film grain — brand surface, 5% */
+body::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* the aurora — the only living element (brand recipe) */
+.aurora{position:fixed;left:50%;bottom:-46vh;transform:translateX(-50%);width:170vw;max-width:none;height:120vh;z-index:0;pointer-events:none;
+  will-change:transform,filter;
+  background:
+    radial-gradient(ellipse 46% 52% at 24% 56%,rgba(139,92,246,.9),transparent 62%),
+    radial-gradient(ellipse 46% 52% at 76% 56%,rgba(168,85,247,.85),transparent 62%),
+    radial-gradient(ellipse 54% 52% at 36% 72%,rgba(255,31,174,1),transparent 60%),
+    radial-gradient(ellipse 50% 48% at 54% 78%,rgba(255,46,77,.95),transparent 60%),
+    radial-gradient(ellipse 48% 48% at 66% 74%,rgba(255,61,0,.9),transparent 62%),
+    radial-gradient(ellipse 86% 42% at 50% 96%,rgba(255,138,0,1),transparent 68%);
+  filter:blur(30px) saturate(185%) brightness(1.08)}
+.haze{display:none;position:fixed;top:-6vh;left:50%;transform:translateX(-50%);width:150vw;height:78vh;z-index:0;pointer-events:none;will-change:transform;
+  background:
+    radial-gradient(ellipse 38% 48% at 20% 50%,rgba(34,211,238,.5),transparent 60%),
+    radial-gradient(ellipse 44% 52% at 27% 56%,rgba(37,99,235,.8),transparent 62%),
+    radial-gradient(ellipse 38% 48% at 80% 50%,rgba(34,211,238,.45),transparent 60%),
+    radial-gradient(ellipse 44% 52% at 73% 56%,rgba(59,130,246,.75),transparent 62%),
+    radial-gradient(ellipse 56% 52% at 50% 70%,rgba(79,70,229,.5),transparent 66%);
+  filter:blur(42px) saturate(160%)}
+/* page-local glow band that anchors each section over the void */
+.glowline{position:absolute;left:50%;top:0;transform:translateX(-50%);width:min(900px,90vw);height:1px;pointer-events:none;z-index:0;
+  background:linear-gradient(90deg,transparent,rgba(168,85,247,.5),rgba(255,31,174,.6),rgba(255,138,0,.5),transparent)}
+
+/* ============ type system ============ */
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.eyebrow i{width:7px;height:7px;flex:none;background:var(--grad);border-radius:2px}
+h1,h2,.stat-num{font-family:var(--font-display);font-weight:400;color:var(--white);line-height:1.12;letter-spacing:.01em}
+h1{font-size:clamp(64px,11vw,128px);line-height:1.02}
+h2{font-size:clamp(34px,4.6vw,54px);margin:18px 0 14px}
+h2 .grad{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:var(--muted);font-size:16px;max-width:620px}
+.lede b,.lede strong{color:var(--body);font-weight:600}
+h3{color:var(--white);font-size:16px;font-weight:700;font-family:Inter,sans-serif;letter-spacing:0}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted)}
+.grad-num{font-family:var(--font-display);background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* buttons — brand: pure white, black text, radius 12, hover dims. No bounce. */
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font:700 14px/1 Inter,sans-serif;border-radius:12px;
+  padding:15px 22px;cursor:pointer;border:1px solid transparent;transition:filter .25s var(--ease),border-color .25s var(--ease),background .25s var(--ease),color .25s var(--ease)}
+.btn-p{background:#fff;color:#0A0A0A}
+.btn-p:hover{filter:brightness(.92)}
+.btn-g{color:var(--white);background:rgba(255,255,255,.04);border-color:var(--border)}
+.btn-g:hover{background:rgba(255,255,255,.08);border-color:var(--border-strong)}
+.pix{width:1em;height:1em;flex:none}
+.btn .pix{width:13px;height:13px}
+
+/* pills / chips */
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--body)}
+.pill b{color:var(--white)}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--grad)}
+
+/* glass card */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+
+/* ============ reveal (IO + 2s fallback) ============ */
+.rv{opacity:0;transform:translateY(24px);filter:blur(6px);transition:opacity .9s var(--ease),transform 1s var(--ease),filter .9s var(--ease)}
+.rv.in{opacity:1;transform:none;filter:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+
+/* ============ hero ============ */
+.hero{min-height:min(92vh,860px);display:flex;flex-direction:column;justify-content:center;padding:120px 0 110px;text-align:center}
+.hero .eyebrow{margin-bottom:26px;justify-content:center}
+.hero h1{margin:0 auto}
+.hero .sub{color:var(--muted);font-size:clamp(15px,1.6vw,17px);max-width:640px;margin:22px auto 0}
+.hero .sub b{color:var(--body);font-weight:600}
+.hero .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.hero-meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+
+/* shrinking visual — illustrative, not stats */
+.shrink-stage{position:relative;margin:64px auto 0;max-width:760px;user-select:none}
+.shrink-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:end}
+.file{position:relative;padding:12px;text-align:left;transform-origin:50% 100%}
+.file .thumb{position:relative;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:#0B0B10;border:1px solid var(--border)}
+.file .thumb .im{position:absolute;inset:0;transition:transform 2.6s var(--ease)}
+.file .name{margin-top:9px;font-size:11px;font-weight:600;color:var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file .size{font-family:var(--font-display);font-size:21px;color:var(--white);line-height:1.2}
+.file .size.done{color:var(--green)}
+.im.a{background:conic-gradient(from 210deg at 40% 40%,#FF3D00,#FF0069,#A855F7,#22D3EE,#FF3D00)}
+.im.b{background:radial-gradient(circle at 70% 30%,#22D3EE,#2563EB 55%,#12122a)}
+.im.c{background:radial-gradient(circle at 30% 70%,#FF8A00,#FF2E4D 60%,#2b0a1e)}
+.im.d{background:conic-gradient(from 40deg at 60% 60%,#A855F7,#FF1FAE,#FF8A00,#A855F7)}
+.shrink-bar{height:8px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--border);overflow:hidden;margin:26px auto 10px;max-width:520px}
+.shrink-bar i{display:block;height:100%;width:0%;border-radius:99px;background:var(--grad);transition:width .18s linear}
+.shrink-cap{text-align:center;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+@keyframes squeeze{0%,8%{transform:scale(1)}45%,88%{transform:scale(.68)}100%{transform:scale(1)}}
+.file.anim .thumb .im{animation:squeeze 7s var(--ease) infinite}
+.file.anim:nth-child(2) .thumb .im{animation-delay:.5s}
+.file.anim:nth-child(3) .thumb .im{animation-delay:1s}
+.file.anim:nth-child(4) .thumb .im{animation-delay:1.5s}
+
+/* ============ product ============ */
+.shot{position:relative;perspective:1400px;margin-top:52px}
+.frame{border-radius:14px;overflow:hidden;border:1px solid var(--border-strong);
+  box-shadow:0 60px 120px -30px rgba(0,0,0,.9),0 0 90px -30px rgba(168,85,247,.35);
+  transform-style:preserve-3d;will-change:transform;transition:transform .9s var(--ease);background:#0B0B10}
+.frame .chrome{display:flex;align-items:center;gap:7px;padding:11px 14px;background:#0B0B10;border-bottom:1px solid var(--border)}
+.frame .chrome i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.14)}
+.frame .chrome .url{margin-left:10px;flex:1;max-width:380px;font-size:11.5px;color:var(--muted);background:rgba(255,255,255,.05);
+  border:1px solid var(--border);border-radius:99px;padding:5px 12px;white-space:nowrap;overflow:hidden}
+.frame img{width:100%;height:auto}
+.float-card{position:absolute;padding:16px 18px;max-width:270px;transform:translate3d(0,0,0)}
+.float-card .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.float-card .v{font-family:var(--font-display);font-size:30px;color:var(--white);line-height:1.1}
+.float-card .v .arr{font-family:Inter,sans-serif;font-size:16px;color:var(--muted);margin:0 6px}
+.float-card .v .to{color:var(--green)}
+.fc-1{right:-30px;top:16%}
+.fc-2{left:-34px;bottom:12%}
+.seg-demo{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.seg-demo span{font-size:11px;font-weight:600;padding:5px 11px;border-radius:999px;border:1px solid var(--border);color:var(--body)}
+.seg-demo span.on{background:#fff;color:#0A0A0A;border-color:transparent}
+.seg-demo span.on:hover{filter:brightness(.94)}
+
+/* ============ steps ============ */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px;counter-reset:s}
+.step{position:relative;padding:30px 26px 32px}
+.step .n{font-family:var(--font-display);font-size:27px;color:var(--white);display:flex;align-items:center;gap:12px}
+.step .ico{width:40px;height:40px;border-radius:12px;background:var(--grad);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.step .ico .pix{width:19px;height:19px}
+.step h3{margin:20px 0 8px;font-size:17px}
+.step p{font-size:13.5px;color:var(--muted)}
+.step p b{color:var(--body);font-weight:600}
+.step::after{content:"";position:absolute;top:52px;right:-18px;width:18px;height:1px;background:var(--border-strong)}
+.step:last-child::after{display:none}
+
+/* ============ brand kit ============ */
+.kit-head{max-width:720px}
+.kit-block{margin-top:96px}
+.kit-label{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.kit-label .no{font-family:var(--font-display);font-size:27px;color:var(--white)}
+.kit-label .ttl{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--body)}
+.kit-label .hint{font-size:12px;color:var(--muted);margin-inline-start:auto}
+.wordmark-stage{position:relative;padding:clamp(36px,7vw,72px);text-align:center;overflow:hidden}
+.wm-clear{position:relative;display:inline-block;padding:22px 26px}
+.wm-clear::before{content:"";position:absolute;inset:0;border:1px dashed rgba(34,211,238,.55);border-radius:4px}
+.wm-clear .cs{position:absolute;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);opacity:.9}
+.wm-clear .cs-t{top:6px;left:50%;transform:translateX(-50%)}
+.wm-clear .cs-l{left:5px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center}
+.wm-clear .wm{font-family:var(--font-display);font-size:clamp(46px,9vw,84px);color:#fff;line-height:1.05}
+.cs-note{margin-top:14px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.rule{padding:18px 20px;display:flex;gap:12px;align-items:flex-start}
+.rule .mk{flex:none;width:20px;height:20px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;margin-top:1px}
+.rule.do .mk{background:rgba(61,220,151,.14);color:var(--green)}
+.rule.no .mk{background:rgba(255,123,123,.12);color:#FF7B7B}
+.rule p{font-size:13px;color:var(--body)}
+.rule p s{color:var(--muted)}
+
+/* colour swatches */
+.sw-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.sw{cursor:pointer;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--card);
+  text-align:left;font-family:inherit;display:block;width:100%;min-width:0;
+  transition:transform .3s var(--ease),border-color .3s var(--ease)}
+.sw:hover{border-color:var(--border-strong);transform:translateY(-3px)}
+.sw .chip{height:88px;position:relative;display:block}
+.sw .meta{padding:12px 14px 14px;display:block;min-width:0}
+.sw .nm{font-size:12.5px;font-weight:700;color:var(--white);display:block}
+.sw .hx{font-size:12px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.02em;margin-top:3px;display:block;overflow-wrap:anywhere}
+.sw .use{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4;display:block;overflow-wrap:anywhere}
+.sw .cp{position:absolute;top:8px;right:8px;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 8px;border-radius:99px;background:rgba(0,0,0,.55);color:#fff;border:1px solid rgba(255,255,255,.2);opacity:0;transition:opacity .25s var(--ease)}
+.sw:hover .cp{opacity:1}
+.sw.aurora .chip{background:var(--grad-text)}
+.grad-bar{margin-top:18px;padding:18px 22px}
+.grad-bar .bar{height:56px;border-radius:12px;background:linear-gradient(100deg,#FF3D00,#FF0069 55%,#A855F7)}
+.grad-bar .labels{display:flex;justify-content:space-between;margin-top:10px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.aurora-note{margin-top:14px;font-size:12.5px;color:var(--muted)}
+.aurora-note b{color:var(--body)}
+.toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);z-index:80;padding:11px 18px;border-radius:999px;
+  background:rgba(10,10,15,.92);border:1px solid var(--border-strong);color:#fff;font-size:12.5px;font-weight:600;
+  opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease);backdrop-filter:blur(14px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* typography specimens */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.spec{padding:30px}
+.spec .aa{font-family:var(--font-display);font-size:76px;color:#fff;line-height:1;margin-bottom:6px}
+.spec.jac .aa{letter-spacing:.01em}
+.spec .nm{font-size:13px;font-weight:700;color:var(--white)}
+.spec .nm span{color:var(--muted);font-weight:500}
+.spec ul{list-style:none;margin-top:14px}
+.spec li{font-size:12.5px;color:var(--muted);padding:5px 0;display:flex;gap:9px}
+.spec li::before{content:"";width:5px;height:5px;border-radius:1px;background:var(--grad);flex:none;margin-top:7px}
+.spec li b{color:var(--body);font-weight:600}
+.type-scale{margin-top:14px;padding:26px 30px;display:flex;align-items:flex-end;gap:34px;flex-wrap:wrap}
+.type-scale .t{line-height:1}
+.type-scale .t .s{font-family:var(--font-display);color:#fff;font-size:26px}
+.type-scale .t .h{font-family:var(--font-display);color:#fff;font-size:46px}
+.type-scale .t .st{font-family:var(--font-display);color:#fff;font-size:27px}
+.type-scale .t .b{font-size:14px;color:var(--body)}
+.type-scale .t .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.type-scale .cap{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+
+/* icons */
+.icon-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.icell{padding:20px 16px;text-align:center;transition:border-color .3s var(--ease)}
+.icell:hover{border-color:var(--border-strong)}
+.icell .box{width:52px;height:52px;border-radius:14px;background:var(--grad);display:inline-flex;align-items:center;justify-content:center;color:#fff}
+.icell .box .pix{width:24px;height:24px}
+.icell .nm{margin-top:12px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.icon-rules{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.icon-rules .rule p{font-size:12.5px}
+
+/* surfaces */
+.surf-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
+.surf{padding:24px}
+.surf .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:14px}
+.surf .spec-txt{margin-top:14px;font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);line-height:1.7}
+.surf-demo-card{padding:18px;border:1px dashed var(--border-strong);border-radius:12px;background:rgba(255,255,255,.02)}
+.surf-demo-card .t{color:#fff;font-weight:700;font-size:13.5px;margin-bottom:5px}
+.surf-demo-card p{font-size:12px;color:var(--muted)}
+.pill-lab{display:flex;gap:8px;flex-wrap:wrap}
+.motion-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mcell{padding:22px}
+.mcell .t{font-size:13.5px;font-weight:700;color:var(--white);margin-bottom:7px}
+.mcell p{font-size:12.5px;color:var(--muted)}
+.ease-demo{height:6px;border-radius:99px;background:rgba(255,255,255,.07);margin-top:14px;position:relative;overflow:hidden}
+.ease-demo i{position:absolute;top:-3px;width:12px;height:12px;border-radius:50%;background:var(--grad-text);left:0;animation:slide 2.6s var(--ease) infinite alternate}
+@keyframes slide{from{left:0}to{left:calc(100% - 12px)}}
+
+/* voice */
+.voice-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.vcol{padding:26px 28px}
+.vcol .k{margin-bottom:16px}
+.vcol li{list-style:none;font-size:13.5px;color:var(--body);padding:8px 0 8px 24px;position:relative;border-bottom:1px solid rgba(255,255,255,.06)}
+.vcol li:last-child{border-bottom:none}
+.vcol.say li::before{content:"+";position:absolute;left:2px;color:var(--green);font-weight:800}
+.vcol.never li{color:var(--muted)}
+.vcol.never li::before{content:"–";position:absolute;left:2px;color:#FF7B7B;font-weight:800}
+
+/* gallery */
+.gal{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px}
+.gal figure{margin:0;padding:10px;cursor:zoom-in;transition:border-color .3s var(--ease),transform .3s var(--ease)}
+.gal figure:hover{border-color:var(--border-strong);transform:translateY(-3px)}
+.gal .ph{position:relative;border-radius:10px;overflow:hidden;background:#0B0B10}
+.gal img{width:100%;height:auto}
+.gal figcaption{display:flex;justify-content:space-between;gap:10px;padding:12px 6px 4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.gal figcaption b{color:var(--body)}
+.lightbox{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;flex-direction:column;
+  background:rgba(0,0,0,.92);backdrop-filter:blur(10px);padding:24px}
+.lightbox.open{display:flex}
+.lightbox .lb-img{max-width:min(1100px,94vw);max-height:76vh;width:auto;height:auto;border-radius:12px;border:1px solid var(--border-strong);
+  box-shadow:0 40px 120px rgba(0,0,0,.9);background:#000}
+.lightbox .lb-cap{margin-top:14px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--body);font-weight:700}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1px solid var(--border-strong);
+  background:rgba(12,12,16,.8);color:#fff;font-size:18px;cursor:pointer;transition:background .25s var(--ease)}
+.lb-nav:hover{background:rgba(255,255,255,.12)}
+.lb-prev{left:18px}.lb-next{right:18px}
+.lb-close{position:absolute;top:20px;right:20px;width:42px;height:42px;border-radius:50%;border:1px solid var(--border-strong);
+  background:rgba(12,12,16,.8);color:#fff;font-size:16px;cursor:pointer}
+.lb-count{position:absolute;top:30px;left:26px;font-family:var(--font-display);font-size:22px;color:var(--muted)}
+
+/* figma */
+.figma-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;margin-top:56px}
+.plugin-frame{max-width:400px;margin-inline:auto;border-radius:16px;border:1px solid var(--border-strong);overflow:hidden;background:#000;
+  box-shadow:0 50px 110px -30px rgba(0,0,0,.9),0 0 80px -30px rgba(255,31,174,.3);transition:transform .8s var(--ease)}
+.plugin-frame img{width:100%}
+.figma-facts{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+.fact{display:flex;gap:12px;font-size:13.5px;color:var(--body);padding:13px 16px;align-items:flex-start}
+.fact .pix{width:15px;height:15px;margin-top:2px;color:var(--muted)}
+.fact b{color:var(--white)}
+.figma-price{display:inline-flex;align-items:baseline;gap:10px;margin-top:22px}
+.figma-price .p{font-family:var(--font-display);font-size:44px;color:#fff}
+.figma-price .u{font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+
+/* built with */
+.built{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.built .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:30px}
+.stat{padding:22px 24px}
+.stat .stat-num{font-size:38px;line-height:1}
+.stat .lbl{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:9px}
+.claude-card{padding:clamp(26px,4vw,40px);position:relative;overflow:hidden}
+.claude-card .k{margin-bottom:16px}
+.timeline{list-style:none;position:relative;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:linear-gradient(#FF3D00,#FF0069,#A855F7)}
+.timeline li{position:relative;padding:9px 0 9px 8px;font-size:13.5px;color:var(--muted)}
+.timeline li b{color:var(--white);font-weight:600}
+.timeline li::before{content:"";position:absolute;left:-26px;top:15px;width:13px;height:13px;border-radius:4px;background:var(--grad)}
+
+/* closing cta */
+.cta{text-align:center}
+.cta .box{padding:clamp(48px,8vw,96px) clamp(24px,5vw,64px);position:relative;overflow:hidden}
+.cta h2{font-size:clamp(40px,7vw,72px)}
+.cta .lede{margin:0 auto 34px}
+.cta .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+footer{padding:56px 0 72px;text-align:center;position:relative;z-index:1}
+footer .wm{font-family:var(--font-display);font-size:26px;color:#fff}
+footer .sig{margin-top:10px;font-size:12px;color:var(--muted)}
+footer .sig a{color:var(--body);text-decoration:none;border-bottom:1px solid var(--border)}
+footer .sig a:hover{color:#fff}
+
+/* mobile proof row */
+.mobile-row{display:grid;grid-template-columns:290px 1fr;gap:clamp(30px,5vw,60px);align-items:center;margin-top:44px}
+.mobile-phone{max-width:290px;border-radius:28px;border:1px solid var(--border-strong);overflow:hidden;background:#0B0B10;
+  box-shadow:0 50px 110px -30px rgba(0,0,0,.9),0 0 80px -30px rgba(255,31,174,.28)}
+.mobile-phone img{width:100%;height:auto}
+.mobile-copy .kicker{display:block;margin-bottom:12px}
+.mobile-copy h3{font-size:clamp(20px,2.4vw,26px);font-family:var(--font-display);font-weight:400;letter-spacing:.01em;line-height:1.16;margin-bottom:12px}
+.mobile-copy p{font-size:14px;color:var(--muted);max-width:420px}
+@media(max-width:720px){.mobile-row{grid-template-columns:1fr;gap:26px;justify-items:center;text-align:center;margin-top:34px}
+  .mobile-copy p{margin:0 auto}}
+
+/* ============ responsive ============ */
+@media (min-width:1025px){.haze{display:block}}
+@media (max-width:1024px){
+  section{padding:110px 0}
+  .steps,.icon-rules,.motion-grid{grid-template-columns:1fr 1fr}
+  .sw-grid{grid-template-columns:repeat(3,1fr)}
+  .surf-grid{grid-template-columns:1fr 1fr}
+  .figma-grid,.built{grid-template-columns:1fr;gap:40px}
+  .icon-strip{grid-template-columns:repeat(5,1fr)}
+  .float-card{display:none}
+}
+@media (max-width:720px){
+  section{padding:88px 0}
+  .hero{padding:96px 0 88px;min-height:0}
+  .steps,.icon-rules,.motion-grid,.sw-grid,.type-grid,.surf-grid,.voice-grid,.rules,.built .stats,.gal{grid-template-columns:1fr}
+  .sw-grid{grid-template-columns:1fr 1fr}
+  .icon-strip{grid-template-columns:repeat(5,1fr);gap:8px}
+  .icell{padding:14px 4px}
+  .icell .box{width:40px;height:40px;border-radius:10px}
+  .icell .box .pix{width:19px;height:19px}
+  .icell .nm{font-size:8.5px;letter-spacing:.08em}
+  .step::after{display:none}
+  .shrink-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .kit-block{margin-top:72px}
+  .aurora{bottom:-60vh;height:100vh}
+  .type-scale{gap:22px}
+  .lb-prev{left:8px}.lb-next{right:8px}
+  .gal figcaption{letter-spacing:.06em}
+}
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .frame,.plugin-frame,.sw,.gal figure{transform:none!important}
+}
+</style>
+</head>
+<body>
+<div class="aurora" id="aurora" aria-hidden="true"></div>
+<div class="haze" id="haze" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ============ 1 · HERO ============ -->
+<header class="hero wrap">
+  <span class="eyebrow rv"><i></i>Side product · Brand + build · With Claude</span>
+  <h1 class="rv d1">Shrinkr</h1>
+  <p class="sub rv d2">The designer's bulk image studio — <b>private, instant, in the browser.</b> Drop a folder, hit a hard KB budget, get the same folder back.</p>
+  <div class="ctas rv d3">
+    <a class="btn btn-p" href="https://shrinkr.fun" target="_blank" rel="noopener">Try Shrinkr
+      <svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="1" width="3" height="1"/><rect x="1" y="1" width="1" height="3"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="8" y="10" width="3" height="1"/><rect x="10" y="8" width="1" height="3"/></svg></a>
+    <a class="btn btn-g" href="#kit">See the brand kit</a>
+  </div>
+  <div class="hero-meta rv d4">
+    <span class="pill"><span class="dot"></span>Nothing uploads</span>
+    <span class="pill">100% client-side</span>
+    <span class="pill">Figma plugin</span>
+  </div>
+  <div class="shrink-stage rv d5" aria-hidden="true">
+    <div class="shrink-grid" id="shrinkGrid">
+      <div class="file card anim"><div class="thumb"><div class="im a"></div></div><div class="name">hero-banner.png</div><div class="size" data-from="4.8" data-to="0.12" data-unit=" MB">4.8 MB</div></div>
+      <div class="file card anim"><div class="thumb"><div class="im b"></div></div><div class="name">team-photo.png</div><div class="size" data-from="2.6" data-to="0.09" data-unit=" MB">2.6 MB</div></div>
+      <div class="file card anim"><div class="thumb"><div class="im c"></div></div><div class="name">ad-300x250.jpg</div><div class="size" data-from="940" data-to="118" data-unit=" KB">940 KB</div></div>
+      <div class="file card anim"><div class="thumb"><div class="im d"></div></div><div class="name">product-shot.png</div><div class="size" data-from="3.4" data-to="0.11" data-unit=" MB">3.4 MB</div></div>
+    </div>
+    <div class="shrink-bar"><i id="shrinkBar"></i></div>
+    <div class="shrink-cap">Illustration · every image squeezed under a 120 KB budget</div>
+  </div>
+</header>
+
+<main>
+<!-- ============ 2 · THE PRODUCT ============ -->
+<section id="product" class="wrap">
+  <div class="glowline" aria-hidden="true"></div>
+  <span class="eyebrow rv"><i></i>01 · The product</span>
+  <h2 class="rv d1">Bulk export, <span class="grad">zero uploads.</span></h2>
+  <p class="lede rv d2">Shrinkr batch-compresses, converts and resizes design exports to a hard KB budget — <b>every byte processed on your device.</b></p>
+  <div class="shot rv d3">
+    <div class="frame" id="tiltFrame">
+      <div class="chrome"><i></i><i></i><i></i><span class="url">shrinkr.fun</span></div>
+      <img src="assets/img/app-hero.webp" width="1440" height="772" alt="The Shrinkr web app: wordmark, headline and dropzone over the aurora gradient" loading="lazy">
+    </div>
+    <div class="float-card card fc-1" aria-hidden="true"><div class="k">Target size</div><div class="v"><span id="tick1">2.4 MB</span><span class="arr">→</span><span class="to">118 KB</span></div></div>
+    <div class="float-card card fc-2" aria-hidden="true"><div class="k">Output format</div><div class="seg-demo"><span class="on">WebP</span><span>JPEG</span><span>PNG</span><span>Auto</span></div></div>
+  </div>
+  <div class="shot rv d3" style="margin-top:26px">
+    <div class="frame" id="tiltFrame2">
+      <div class="chrome"><i></i><i></i><i></i><span class="url">shrinkr.fun — settings</span></div>
+      <img src="assets/img/app-settings.webp" width="1160" height="570" alt="Shrinkr settings panel: mode, format, resize, scoping and suffix controls" loading="lazy">
+    </div>
+  </div>
+  <div class="mobile-row">
+    <div class="mobile-phone rv"><img src="assets/img/app-mobile.webp" width="390" height="844" alt="Shrinkr running in a mobile browser: wordmark, headline, dropzone and budget controls" loading="lazy"></div>
+    <div class="mobile-copy rv d1"><span class="kicker">One screen deep</span>
+      <h3>It fits your phone, not just your dock.</h3>
+      <p>Same dropzone, same budget, same ZIP — the whole studio in a phone-wide column. Nothing is cut away to make it fit.</p></div>
+  </div>
+</section>
+
+<!-- ============ 3 · HOW IT WORKS ============ -->
+<section id="how" class="wrap">
+  <div class="glowline" aria-hidden="true"></div>
+  <span class="eyebrow rv"><i></i>02 · How it works</span>
+  <h2 class="rv d1">Drop. Set. <span class="grad">Download.</span></h2>
+  <p class="lede rv d2">Three steps, the same every time — settings changes re-run instantly, no re-upload.</p>
+  <div class="steps">
+    <div class="step card rv d1"><div class="n"><span class="ico"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/><rect x="5" y="1" width="2" height="5"/><rect x="3" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="5" y="6" width="2" height="1"/><rect x="5" y="7" width="2" height="1"/></svg></span>01</div>
+      <h3>Drop it in</h3><p>Files, <b>whole folder trees, or a ZIP</b> — drag-and-drop, folder picker, and OneDrive files included.</p></div>
+    <div class="step card rv d2"><div class="n"><span class="ico"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><rect x="4" y="1" width="4" height="1"/><rect x="2" y="2" width="2" height="1"/><rect x="8" y="2" width="2" height="1"/><rect x="1" y="4" width="1" height="4"/><rect x="10" y="4" width="1" height="4"/><rect x="2" y="9" width="2" height="1"/><rect x="8" y="9" width="2" height="1"/><rect x="4" y="10" width="4" height="1"/><rect x="2" y="5" width="8" height="1"/><rect x="5" y="2" width="1" height="8"/><rect x="6" y="2" width="1" height="8"/></svg></span>02</div>
+      <h3>Set the budget</h3><p>A <b>hard KB target</b> (binary search finds the best quality that fits), a fixed quality, format and resize — scoped to a folder name if you like.</p></div>
+    <div class="step card rv d3"><div class="n"><span class="ico"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/><rect x="5" y="1" width="2" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="5" y="2" width="2" height="6"/></svg></span>03</div>
+      <h3>Download the ZIP</h3><p><b>Identical folder structure</b> and names come back. Save results straight back into the original folder in Chrome.</p></div>
+  </div>
+</section>
+
+<!-- ============ 4 · BRAND DESIGN KIT (centrepiece) ============ -->
+<section id="kit" class="wrap">
+  <div class="glowline" aria-hidden="true"></div>
+  <div class="kit-head">
+    <span class="eyebrow rv"><i></i>03 · Brand design kit</span>
+    <h2 class="rv d1">A brand book <span class="grad">before a feature.</span></h2>
+    <p class="lede rv d2">Ten pages, written before I shipped the product — every rule below is enforced in the app.</p>
+  </div>
+
+  <!-- 4.1 wordmark -->
+  <div class="kit-block">
+    <div class="kit-label rv"><span class="no">01</span><span class="ttl">Identity · The wordmark</span></div>
+    <div class="wordmark-stage card rv d1">
+      <div class="wm-clear">
+        <span class="cs cs-t">clearspace ½ cap</span><span class="cs cs-l">½ cap</span>
+        <span class="wm">Shrinkr</span>
+      </div>
+      <div class="cs-note">Jacquard 24 · Regular · sentence case · minimum 18 px · white on black or over the aurora</div>
+    </div>
+    <div class="rules">
+      <div class="rule do card rv"><span class="mk">✓</span><p>“Shrinkr” in Jacquard 24, white, sentence case — the wordmark is the whole identity.</p></div>
+      <div class="rule do card rv d1"><span class="mk">✓</span><p>The lone pixel “S” stands alone only at favicon scale.</p></div>
+      <div class="rule no card rv d2"><span class="mk">✕</span><p><s>SHRINKR</s> — never all-caps, never abbreviated in the wordmark.</p></div>
+      <div class="rule no card rv d3"><span class="mk">✕</span><p><s>Bold, italic, outlined, shadowed, stretched, recoloured</s> — never.</p></div>
+    </div>
+  </div>
+
+  <!-- 4.2 colour -->
+  <div class="kit-block">
+    <div class="kit-label rv"><span class="no">02</span><span class="ttl">Colour · Void &amp; aurora</span><span class="hint">click any swatch to copy</span></div>
+    <div class="sw-grid">
+      <button class="sw rv" data-hex="#000000"><span class="chip" style="background:#000000"><span class="cp">copy</span></span><span class="meta"><span class="nm">Void</span><span class="hx">#000000</span><span class="use">Backgrounds, always</span></span></button>
+      <button class="sw rv d1" data-hex="#FFFFFF"><span class="chip" style="background:#FFFFFF"><span class="cp">copy</span></span><span class="meta"><span class="nm">White</span><span class="hx">#FFFFFF</span><span class="use">Wordmark, primary buttons</span></span></button>
+      <button class="sw rv d2" data-hex="#C6C6CF"><span class="chip" style="background:#C6C6CF"><span class="cp">copy</span></span><span class="meta"><span class="nm">Body</span><span class="hx">#C6C6CF</span><span class="use">Paragraph text · ~10:1</span></span></button>
+      <button class="sw rv d3" data-hex="#9A9AA6"><span class="chip" style="background:#9A9AA6"><span class="cp">copy</span></span><span class="meta"><span class="nm">Muted</span><span class="hx">#9A9AA6</span><span class="use">Labels, captions · ~5.6:1</span></span></button>
+      <button class="sw rv d4" data-hex="#22D3EE"><span class="chip" style="background:#22D3EE"><span class="cp">copy</span></span><span class="meta"><span class="nm">Cyan</span><span class="hx">#22D3EE</span><span class="use">Aurora hue · light only</span></span></button>
+      <button class="sw rv" data-hex="#2563EB"><span class="chip" style="background:#2563EB"><span class="cp">copy</span></span><span class="meta"><span class="nm">Blue</span><span class="hx">#2563EB</span><span class="use">Aurora hue · light only</span></span></button>
+      <button class="sw rv d1" data-hex="#A855F7"><span class="chip" style="background:#A855F7"><span class="cp">copy</span></span><span class="meta"><span class="nm">Violet</span><span class="hx">#A855F7</span><span class="use">Aurora hue · light only</span></span></button>
+      <button class="sw rv d2" data-hex="#FF1FAE"><span class="chip" style="background:#FF1FAE"><span class="cp">copy</span></span><span class="meta"><span class="nm">Magenta</span><span class="hx">#FF1FAE</span><span class="use">Aurora heart · light only</span></span></button>
+      <button class="sw rv d3" data-hex="#FF2E4D"><span class="chip" style="background:#FF2E4D"><span class="cp">copy</span></span><span class="meta"><span class="nm">Crimson</span><span class="hx">#FF2E4D</span><span class="use">Aurora heart · light only</span></span></button>
+      <button class="sw rv d4" data-hex="#FF8A00"><span class="chip" style="background:#FF8A00"><span class="cp">copy</span></span><span class="meta"><span class="nm">Orange</span><span class="hx">#FF8A00</span><span class="use">Aurora base · light only</span></span></button>
+    </div>
+    <div class="grad-bar card rv"><div class="bar"></div><div class="labels"><span>#FF3D00</span><span>#FF0069</span><span>#A855F7</span></div>
+      <p class="aurora-note">The accent gradient, and the rule: <b>aurora colours live only in light</b> — the background glow, gauges, active states. Never as text on black, never as flat fills.</p></div>
+  </div>
+
+  <!-- 4.3 typography -->
+  <div class="kit-block">
+    <div class="kit-label rv"><span class="no">03</span><span class="ttl">Typography · Jacquard speaks, Inter works</span></div>
+    <div class="type-grid">
+      <div class="spec card jac rv"><div class="aa">Aa</div><div class="nm">Jacquard 24 <span>— display · Regular only</span></div>
+        <ul><li><b>Wordmark, page titles, stat numbers</b> — nothing else.</li><li>Scale: wordmark 26 · H1 46 · stats 27 px.</li><li>Sits large and sparse — <b>a texture, not a paragraph.</b></li></ul></div>
+      <div class="spec card rv d1"><div class="aa" style="font-family:Inter;font-weight:700">Aa</div><div class="nm">Inter <span>— everything else</span></div>
+        <ul><li>Body 14 px · 400/600/700 · line-height 1.55.</li><li>Labels: 11 px · uppercase · <b>+0.14em tracking</b> · muted.</li><li>Contrast is law: body ≥10:1, muted ≥5.6:1 on black.</li></ul></div>
+    </div>
+    <div class="type-scale card rv"><div><div class="t s">Shrinkr</div><div class="cap">wordmark 26</div></div>
+      <div><div class="t h">Every banner under 120 KB</div><div class="cap">H1 46</div></div>
+      <div><div class="t st">1,482</div><div class="cap">stats 27</div></div>
+      <div><div class="t b">Body text sits here, 14 px, 1.55.</div><div class="cap">body 14</div></div>
+      <div><div class="t l">Labels 11 · +0.14em</div><div class="cap">label 11</div></div></div>
+  </div>
+
+  <!-- 4.4 iconography -->
+  <div class="kit-block">
+    <div class="kit-label rv"><span class="no">04</span><span class="ttl">Iconography · Pixels, like the type</span></div>
+    <div class="icon-strip" id="iconStrip"></div>
+    <div class="icon-rules">
+      <div class="rule do card rv"><span class="mk">✓</span><p>12×12 grid, whole 1-unit cells — squares only.</p></div>
+      <div class="rule do card rv d1"><span class="mk">✓</span><p>Crisp edges: shape-rendering: crispEdges.</p></div>
+      <div class="rule do card rv d2"><span class="mk">✓</span><p>One colour per glyph: white or currentColor.</p></div>
+      <div class="rule no card rv d3"><span class="mk">✕</span><p>No strokes, no curves, no anti-aliasing.</p></div>
+    </div>
+  </div>
+
+  <!-- 4.5 surfaces + motion -->
+  <div class="kit-block">
+    <div class="kit-label rv"><span class="no">05</span><span class="ttl">Surfaces · Calm glass over living light</span></div>
+    <div class="surf-grid">
+      <div class="surf card rv"><div class="k">Card</div>
+        <div class="surf-demo-card"><div class="t">Batch · 24 images</div><p>Budget 120 KB · WebP · 2.1 MB saved</p></div>
+        <div class="spec-txt">radius 16 · fill rgba(12,12,16,.72)<br>border white 10% · blur 18px</div></div>
+      <div class="surf card rv d1"><div class="k">Primary button</div>
+        <div style="margin-top:26px"><a class="btn btn-p" href="https://shrinkr.fun" target="_blank" rel="noopener">Download ZIP</a></div>
+        <div class="spec-txt">white fill · black text · radius 12<br>hover = brightness .92 · no lift</div></div>
+      <div class="surf card rv d2"><div class="k">Pills &amp; chips</div>
+        <div class="pill-lab" style="margin-top:18px"><span class="pill"><b>Blog</b> folder</span><span class="pill">Launch offer</span><span class="pill">-94%</span></div>
+        <div class="spec-txt">radius 999 · white 4–5% fill<br>active inverts to solid white</div></div>
+    </div>
+    <div class="kit-label rv" style="margin-top:64px"><span class="no">06</span><span class="ttl">Motion · Slow is premium</span></div>
+    <div class="motion-grid">
+      <div class="mcell card rv"><div class="t">One ease</div><p>Everything uses cubic-bezier(.4,0,.2,1), 200–350 ms.</p><div class="ease-demo"><i></i></div></div>
+      <div class="mcell card rv d1"><div class="t">Hovers whisper</div><p>Brightness and border shifts only. Nothing bounces toward the cursor.</p></div>
+      <div class="mcell card rv d2"><div class="t">The aurora owns life</div><p>Hue drift ±55°, cursor trailing, breathing — all ambient motion is the background's.</p></div>
+      <div class="mcell card rv d3"><div class="t">Respect the switch</div><p>prefers-reduced-motion freezes the aurora and every transition. Always.</p></div>
+    </div>
+  </div>
+
+  <!-- 4.6 voice -->
+  <div class="kit-block">
+    <div class="kit-label rv"><span class="no">07</span><span class="ttl">Voice · Designer to designer</span></div>
+    <div class="voice-grid">
+      <div class="vcol card say rv"><div class="k">Say</div><ul>
+        <li>“Nothing ever leaves your device.”</li>
+        <li>“Every banner under 120 KB — automatically.”</li>
+        <li>“Folder structure comes back exactly as it went in.”</li>
+        <li>Plain verbs, honest limits, trade-offs admitted out loud.</li>
+      </ul></div>
+      <div class="vcol card never rv d1"><div class="k">Never say</div><ul>
+        <li>“Revolutionary AI-powered synergy.”</li>
+        <li>“Blazingly fast!!!”</li>
+        <li>Dark patterns: no guilt, no fake scarcity, no “wait!” modals.</li>
+        <li>Corporate distance — a designer built this, and writes like one.</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <!-- 4.7 gallery -->
+  <div class="kit-block">
+    <div class="kit-label rv"><span class="no">08</span><span class="ttl">The brand book · v1.0, ten pages</span><span class="hint">click a page to open</span></div>
+    <div class="gal" id="gal"></div>
+  </div>
+</section>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Brand book page viewer">
+  <span class="lb-count" id="lbCount">01 / 10</span>
+  <button class="lb-close" id="lbClose" aria-label="Close viewer">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous page">←</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next page">→</button>
+  <img class="lb-img" id="lbImg" src="" alt="">
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<!-- ============ 5 · FIGMA PLUGIN ============ -->
+<section id="figma" class="wrap">
+  <div class="glowline" aria-hidden="true"></div>
+  <span class="eyebrow rv"><i></i>04 · The Figma plugin</span>
+  <div class="figma-grid">
+    <div>
+      <h2 class="rv d1">Inside Figma, <span class="grad">under budget.</span></h2>
+      <p class="lede rv d2">Select frames, set a KB target, export — the plugin runs the same compression engine in a mini-Shrinkr panel. <b>Paid once: $15.</b> The web studio stays free.</p>
+      <div class="figma-facts">
+        <div class="fact card rv d2"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><rect x="4" y="1" width="4" height="1"/><rect x="2" y="2" width="2" height="1"/><rect x="8" y="2" width="2" height="1"/><rect x="1" y="4" width="1" height="4"/><rect x="10" y="4" width="1" height="4"/><rect x="2" y="9" width="2" height="1"/><rect x="8" y="9" width="2" height="1"/><rect x="4" y="10" width="4" height="1"/><rect x="5" y="5" width="2" height="2"/></svg><span>Live selection counter, <b>0.5× / 1× / 2×</b> export scale.</span></div>
+        <div class="fact card rv d3"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="3" width="6" height="1"/><rect x="8" y="2" width="1" height="1"/><rect x="8" y="4" width="1" height="1"/><rect x="9" y="3" width="1" height="1"/><rect x="4" y="8" width="6" height="1"/><rect x="3" y="7" width="1" height="1"/><rect x="3" y="9" width="1" height="1"/><rect x="2" y="8" width="1" height="1"/></svg><span>Canvas <b>binary-search compression</b> — the identical engine, locally.</span></div>
+        <div class="fact card rv d4"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/><rect x="5" y="1" width="2" height="5"/><rect x="3" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="5" y="6" width="2" height="1"/><rect x="5" y="7" width="2" height="1"/></svg><span>Single file or <b>ZIP out</b>, with a link back to the free web studio.</span></div>
+      </div>
+      <div class="figma-price rv d4"><span class="p">$15</span><span class="u">one-time · via Figma payments</span></div>
+    </div>
+    <div class="rv d2"><div class="plugin-frame" id="pluginTilt"><img src="assets/img/plugin-panel.webp" width="400" height="600" alt="The Shrinkr Figma plugin panel: wordmark, selection counter, KB target, format choices and export button" loading="lazy"></div></div>
+  </div>
+</section>
+
+<!-- ============ 6 · HOW I BUILT IT ============ -->
+<section id="built" class="wrap">
+  <div class="glowline" aria-hidden="true"></div>
+  <span class="eyebrow rv"><i></i>05 · How I built it</span>
+  <div class="built">
+    <div>
+      <h2 class="rv d1">Designed solo, <span class="grad">built with Claude.</span></h2>
+      <p class="lede rv d2">I built the tool I couldn't find: our CMS demanded banners under 120 KB, so my team had exported at 0.25× scale for years. I wrote the brand book first, then the product, then the launch playbook — with Claude as my engineering partner.</p>
+      <div class="stats">
+        <div class="stat card rv d2"><div class="stat-num" data-count="16" data-suffix="">16</div><div class="lbl">languages, RTL included</div></div>
+        <div class="stat card rv d3"><div class="stat-num" data-count="10" data-suffix="">10</div><div class="lbl">hand-drawn pixel icons</div></div>
+        <div class="stat card rv d2"><div class="stat-num" data-count="120" data-prefix="&lt;" data-suffix=" KB"> &lt;120 KB</div><div class="lbl">the budget that started it</div></div>
+        <div class="stat card rv d3"><div class="stat-num" data-count="0" data-suffix="">0</div><div class="lbl">bytes uploaded, ever</div></div>
+      </div>
+    </div>
+    <div class="claude-card card rv d2"><div class="k kicker">From idea to launch plan</div>
+      <ol class="timeline">
+        <li><b>The pain.</b> Blunt 0.25× exports to satisfy a 120 KB CMS budget.</li>
+        <li><b>Brand book v1.0.</b> Wordmark, void &amp; aurora, type, icons, motion, voice.</li>
+        <li><b>The product.</b> One client-side file: JSZip, pako, UPNG.js, canvas binary search.</li>
+        <li><b>Figma plugin.</b> The same engine inside a plugin panel.</li>
+        <li><b>Launch playbook.</b> Pricing, ad gate, Product Hunt plan, honest revenue math.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 · CTA ============ -->
+<section id="cta" class="wrap cta">
+  <div class="glowline" aria-hidden="true"></div>
+  <div class="box card rv">
+    <span class="eyebrow" style="justify-content:center"><i></i>Ready</span>
+    <h2 class="rv d1" style="margin-top:16px">Shrink something.</h2>
+    <p class="lede rv d2" style="margin-left:auto;margin-right:auto">The web studio is free, runs in your browser, and keeps every file on your device.</p>
+    <div class="ctas rv d3">
+      <a class="btn btn-p" href="https://shrinkr.fun" target="_blank" rel="noopener">Try Shrinkr
+        <svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="1" width="3" height="1"/><rect x="1" y="1" width="1" height="3"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="8" y="10" width="3" height="1"/><rect x="10" y="8" width="1" height="3"/></svg></a>
+      <a class="btn btn-g" href="https://www.nirshath.com/artificialintelligence" target="_top">More work built with AI</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <div class="wm">Shrinkr</div>
+  <p class="sig">Brand Book v1.0 · Designed and built by <a href="https://www.nirshath.com" target="_top">Nirshath Madhusanka</a> · nirshath.com</p>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- reveals: IntersectionObserver + hard 2s fallback ---------- */
+var rv=[].slice.call(document.querySelectorAll('.rv'));
+function show(el){el.classList.add('in');}
+if(reduce){rv.forEach(show);}
+else{
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    rv.forEach(function(el){io.observe(el);});
+  }
+  setTimeout(function(){rv.forEach(show);},2000);
+}
+
+/* ---------- count-ups (final values ship in markup) ---------- */
+function fmt(n,el){var s=Math.round(n).toLocaleString('en-US');
+  var pre=el.dataset.prefix||'';var suf=el.dataset.suffix||'';
+  el.textContent=(el.getAttribute('data-count')==='0'?'':pre)+s+suf;}
+function countUp(el){var t=+el.dataset.count,t0=null;
+  function tick(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/1500,1),e=1-Math.pow(2,-10*p);
+    fmt(p>=1?t:t*e,el);if(p<1)requestAnimationFrame(tick);}
+  requestAnimationFrame(tick);}
+var nums=[].slice.call(document.querySelectorAll('[data-count]'));
+if(reduce||!('IntersectionObserver' in window)){nums.forEach(function(el){fmt(+el.dataset.count,el);});}
+else{
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countUp(e.target);io2.unobserve(e.target);}});},{threshold:.6});
+  nums.forEach(function(n){n.innerHTML=n.dataset.prefix||'';n.textContent=(n.dataset.prefix||'')+'0'+(n.dataset.suffix||'');io2.observe(n);});
+  setTimeout(function(){nums.forEach(function(el){if(!el.dataset.done){el.dataset.done=1;fmt(+el.dataset.count,el);}});},2500);
+}
+
+/* ---------- aurora: hue drift ±55°, cursor trailing, breathe (brand recipe) ---------- */
+var aur=document.getElementById('aurora'),haze=document.getElementById('haze');
+if(!reduce){
+  var mx=0,my=0,cx=0,cy=0,t0=performance.now();
+  function loop(ts){
+    var t=(ts-t0)/1000;
+    cx+=(mx-cx)*.028; cy+=(my-cy)*.028;
+    var hue=Math.sin(t*2*Math.PI/33)*40+Math.sin(t*2*Math.PI/21+1.7)*15;   /* ±~55° */
+    var br=1+Math.sin(t*2*Math.PI/9)*.035;                                  /* breathe ±3.5% */
+    aur.style.filter='blur(30px) saturate(185%) brightness(1.08) hue-rotate('+hue.toFixed(1)+'deg)';
+    aur.style.transform='translateX(calc(-50% + '+(cx*92).toFixed(1)+'px)) translateY('+(cy*64).toFixed(1)+'px) scale('+br.toFixed(3)+')';
+    if(haze){haze.style.filter='blur(42px) saturate(160%) hue-rotate('+(hue*.6).toFixed(1)+'deg)';
+      haze.style.transform='translateX(calc(-50% + '+(cx*40).toFixed(1)+'px)) translateY('+(cy*26).toFixed(1)+'px)';}
+    requestAnimationFrame(loop);
+  }
+  addEventListener('mousemove',function(e){mx=(e.clientX/innerWidth-.5)*2;my=(e.clientY/innerHeight-.5)*2;});
+  requestAnimationFrame(loop);
+}
+
+/* ---------- hero shrink loop (illustrative) ---------- */
+var sizes=[].slice.call(document.querySelectorAll('.file .size'));
+var bar=document.getElementById('shrinkBar');
+function runShrink(){
+  var dur=5200,t0=null;
+  sizes.forEach(function(s){s.classList.remove('done');});
+  function tick(ts){
+    if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e=Math.min(p*1.6,1);
+    sizes.forEach(function(s){
+      var f=+s.dataset.from,to=+s.dataset.to,u=s.dataset.unit;
+      var v=f+(to-f)*Math.min(e,1);
+      s.textContent=(v>=10?Math.round(v):(Math.round(v*100)/100).toFixed(2))+u;
+      if(e>=1)s.classList.add('done');
+    });
+    bar.style.width=(Math.min(e,1)*100).toFixed(1)+'%';
+    if(p<1.35)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+if(!reduce){setTimeout(runShrink,900);setInterval(runShrink,9000);}
+var files=[].slice.call(document.querySelectorAll('.file'));
+if(!reduce&&'IntersectionObserver' in window){
+  var io3=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){files.forEach(function(f){f.classList.add('anim');});io3.disconnect();}});},{threshold:.3});
+  if(files[0])io3.observe(files[0]);
+}else{files.forEach(function(f){f.classList.remove('anim');});}
+
+/* ---------- copy-hex swatches ---------- */
+var toast=document.getElementById('toast'),tt;
+function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show');},1600);}
+[].slice.call(document.querySelectorAll('.sw')).forEach(function(b){
+  b.addEventListener('click',function(){
+    var h=b.dataset.hex;
+    function done(){say('Copied '+h);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(h).then(done,done);}
+    else{var ta=document.createElement('textarea');ta.value=h;document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();}
+  });
+});
+
+/* ---------- pixel icons (from the app, 12×12 crispEdges) ---------- */
+var ICONS=[
+ ['upload','<rect x="4" y="1" width="4" height="1"/><rect x="2" y="2" width="2" height="1"/><rect x="8" y="2" width="2" height="1"/><rect x="1" y="4" width="1" height="4"/><rect x="10" y="4" width="1" height="4"/><rect x="2" y="9" width="2" height="1"/><rect x="8" y="9" width="2" height="1"/><rect x="4" y="10" width="4" height="1"/><rect x="2" y="5" width="8" height="1"/><rect x="5" y="2" width="1" height="8"/><rect x="6" y="2" width="1" height="8"/>'],
+ ['download','<rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/><rect x="5" y="1" width="2" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="5" y="2" width="2" height="6"/>'],
+ ['folder','<rect x="1" y="10" width="10" height="1"/><rect x="1" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/><rect x="5" y="1" width="2" height="5"/><rect x="3" y="5" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="5" y="6" width="2" height="1"/><rect x="5" y="7" width="2" height="1"/>'],
+ ['target','<rect x="4" y="1" width="4" height="1"/><rect x="2" y="2" width="2" height="1"/><rect x="8" y="2" width="2" height="1"/><rect x="1" y="4" width="1" height="4"/><rect x="10" y="4" width="1" height="4"/><rect x="2" y="9" width="2" height="1"/><rect x="8" y="9" width="2" height="1"/><rect x="4" y="10" width="4" height="1"/><rect x="2" y="5" width="8" height="1"/><rect x="5" y="2" width="1" height="8"/><rect x="6" y="2" width="1" height="8"/>'],
+ ['swap','<rect x="1" y="2" width="4" height="1"/><rect x="1" y="3" width="10" height="1"/><rect x="1" y="4" width="1" height="6"/><rect x="10" y="4" width="1" height="6"/><rect x="1" y="9" width="10" height="1"/><rect x="2" y="5" width="8" height="1"/>'],
+ ['resize','<rect x="1" y="1" width="3" height="1"/><rect x="1" y="1" width="1" height="3"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="5" y="5" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="8" y="10" width="3" height="1"/><rect x="10" y="8" width="1" height="3"/>'],
+ ['lock','<rect x="4" y="1" width="4" height="1"/><rect x="3" y="2" width="1" height="2"/><rect x="8" y="2" width="1" height="2"/><rect x="2" y="4" width="8" height="1"/><rect x="2" y="10" width="8" height="1"/><rect x="2" y="5" width="1" height="5"/><rect x="9" y="5" width="1" height="5"/><rect x="5" y="6" width="2" height="2"/><rect x="5" y="8" width="2" height="1"/>'],
+ ['zoom','<rect x="3" y="1" width="4" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="4"/><rect x="8" y="3" width="1" height="4"/><rect x="2" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="3" y="8" width="4" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="9" y="9" width="2" height="2"/>'],
+ ['save','<rect x="4" y="1" width="4" height="1"/><rect x="3" y="2" width="1" height="2"/><rect x="8" y="2" width="1" height="2"/><rect x="2" y="4" width="8" height="1"/><rect x="2" y="10" width="8" height="1"/><rect x="2" y="5" width="1" height="5"/><rect x="9" y="5" width="1" height="5"/><rect x="5" y="6" width="2" height="2"/><rect x="5" y="8" width="2" height="1"/>'],
+ ['globe','<rect x="3" y="1" width="4" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="4"/><rect x="8" y="3" width="1" height="4"/><rect x="2" y="7" width="1" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="3" y="8" width="4" height="1"/><rect x="8" y="8" width="1" height="1"/><rect x="9" y="9" width="2" height="2"/>']
+];
+document.getElementById('iconStrip').innerHTML=ICONS.map(function(ic,i){
+  return '<div class="icell card rv d'+(i%5)+'"><span class="box"><svg class="pix" viewBox="0 0 12 12" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true">'+ic[1]+'</svg></span><div class="nm">'+ic[0]+'</div></div>';
+}).join('');
+
+/* ---------- brand book gallery + lightbox ---------- */
+var PAGES=[['Cover','Shrinkr · Brand Book v1.0'],['Identity','The wordmark'],['Colour','Void & aurora'],['The aurora','A living gradient'],
+ ['Typography','Jacquard speaks, Inter works'],['Iconography','Pixels, like the type'],['Surfaces','Calm glass over living light'],
+ ['Motion','Slow is premium'],['Voice','Designer to designer'],['Back cover','Brand Book v1.0']];
+var gal=document.getElementById('gal');
+gal.innerHTML=PAGES.map(function(p,i){
+  var n=String(i+1).padStart(2,'0');
+  return '<figure class="card rv d'+(i%5)+'" data-i="'+i+'" tabindex="0" role="button" aria-label="Open brand book page: '+p[0]+'"><div class="ph"><img src="assets/brandbook/bb-'+(i+1)+'.webp" width="1200" height="675" alt="Shrinkr Brand Book page '+(i+1)+': '+p[0]+'" loading="lazy"></div><figcaption><b>'+p[0]+'</b><span>'+n+'</span></figcaption></figure>';
+}).join('');
+var lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap'),lbCount=document.getElementById('lbCount'),cur=0;
+function openLB(i){cur=(i+10)%10;var n=cur+1;
+  lbImg.src='assets/brandbook/bb-'+n+'.webp';lbImg.alt='Shrinkr Brand Book page '+n+': '+PAGES[cur][0];
+  lbCap.textContent=PAGES[cur][0]+' — '+PAGES[cur][1];lbCount.textContent=String(n).padStart(2,'0')+' / 10';
+  lb.classList.add('open');document.body.style.overflow='hidden';document.getElementById('lbClose').focus();}
+function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
+gal.addEventListener('click',function(e){var f=e.target.closest('figure');if(f)openLB(+f.dataset.i);});
+gal.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var f=e.target.closest('figure');if(f){e.preventDefault();openLB(+f.dataset.i);}}});
+document.getElementById('lbClose').addEventListener('click',closeLB);
+document.getElementById('lbPrev').addEventListener('click',function(){openLB(cur-1);});
+document.getElementById('lbNext').addEventListener('click',function(){openLB(cur+1);});
+lb.addEventListener('click',function(e){if(e.target===lb)closeLB();});
+addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();if(e.key==='ArrowLeft')openLB(cur-1);if(e.key==='ArrowRight')openLB(cur+1);});
+
+/* ---------- hover tilt (desktop pointers only, whisper per brand: subtle) ---------- */
+if(!reduce&&matchMedia('(pointer:fine)').matches){
+  [['tiltFrame',4],['tiltFrame2',3],['pluginTilt',5]].forEach(function(cfg){
+    var el=document.getElementById(cfg[0]);if(!el)return;var max=cfg[1];
+    var host=el.closest('.shot')||el.parentElement;
+    host.addEventListener('mousemove',function(e){var r=host.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      el.style.transform='perspective(1400px) rotateY('+(x*max).toFixed(2)+'deg) rotateX('+(-y*(max*.7)).toFixed(2)+'deg)';});
+    host.addEventListener('mouseleave',function(){el.style.transform='';});
+  });
+}
+
+/* ---------- Wix embed height postMessage ---------- */
+function postH(){try{parent.postMessage({type:'embed-height',h:document.documentElement.scrollHeight},'*');}catch(e){}}
+addEventListener('load',function(){postH();setTimeout(postH,400);setTimeout(postH,2200);});
+addEventListener('resize',postH);
+if('ResizeObserver' in window){new ResizeObserver(function(){postH();}).observe(document.documentElement);}
+})();
+</script>
+</body>
+</html>
