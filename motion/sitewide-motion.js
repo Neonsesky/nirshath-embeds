@@ -336,3 +336,6 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
 })();
+
+/* nirsh.me announcement popup (source: nirsh-me/popup.js) */
+(function(){var s=document.createElement('script');s.src='https://neonsesky.github.io/nirshath-embeds/nirsh-me/popup.js';s.async=true;document.head.appendChild(s);})();
